@@ -1,53 +1,47 @@
--- enums
 
-CREATE TYPE typeTransport AS ENUM ('avion', 'train', 'bus');
-CREATE TYPE statutPartenaire AS ENUM ('actif', 'inactif', 'suspendu');
-CREATE TYPE statutContrat AS ENUM ('enCours', 'termine', 'suspendu');
-CREATE TYPE typeReduction AS ENUM ('pourcentage', 'montant fixe');
-CREATE TYPE statutOffre AS ENUM ('active', 'expirée', 'suspendue');
-CREATE TYPE statutBillet AS ENUM ('vendu', 'annule', 'en attente');
-
-
+CREATE DATABASE EcoMove;
+\c EcoMove;
 CREATE TABLE partenaires (
                              id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-                             nomCompagnie VARCHAR(255) NOT NULL,
-                             contactCommercial VARCHAR(255),
-                             typeTransport type_transport,
-                             zoneGeographique TEXT,
-                             conditionsSpeciales TEXT,
-                             statutPartenaire statutPartenaire,
-                             dateCreation DATE
+                             nom_compagnie VARCHAR(255) NOT NULL,
+                             contact_commercial VARCHAR(255),
+                             type_transport VARCHAR(50) CHECK (type_transport IN ('avion', 'train', 'bus')),
+                             zone_geographique TEXT,
+                             conditions_speciales TEXT,
+                             statut_partenaire VARCHAR(50) CHECK (statut_partenaire IN ('actif', 'inactif', 'suspendu')),
+                             date_creation DATE
 );
+
 CREATE TABLE contrats (
                           id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-                          partenaireId UUID REFERENCES partenaires(id) ON DELETE CASCADE,
-                          dateDebut DATE,
-                          dateFin DATE,
-                          tarifSpecial DECIMAL,
+                          partenaire_id UUID REFERENCES partenaires(id) ON DELETE CASCADE,
+                          date_debut DATE,
+                          date_fin DATE,
+                          tarif_special DECIMAL,
                           conditions_accord TEXT,
                           renouvelable BOOLEAN,
-                          statutContrat statutContrat
+                          statut_contrat VARCHAR(50) CHECK (statut_contrat IN ('enCours', 'termine', 'suspendu'))
 );
 
 CREATE TABLE promotions (
-                                        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-                                        nomOffre VARCHAR(255),
-                                        description TEXT,
-                                        dateDebut DATE,
-                                        dateFin DATE,
-                                        typeReduction typeReduction,
-                                        valeurReduction DECIMAL,
-                                        conditions TEXT,
-                                        statutOffre statutOffre
+                            id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                            nom_offre VARCHAR(255),
+                            description TEXT,
+                            date_debut DATE,
+                            date_fin DATE,
+                            type_reduction VARCHAR(50) CHECK (type_reduction IN ('pourcentage', 'montant fixe')),
+                            valeur_reduction DECIMAL,
+                            conditions TEXT,
+                            statut_offre VARCHAR(50) CHECK (statut_offre IN ('active', 'expiree', 'suspendue'))
 );
 
 CREATE TABLE billets (
                          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-                         typeTransport typeTransport,
-                         prixAchat DECIMAL,
-                         prixVente DECIMAL,
-                         dateVente TIMESTAMP,
-                         statutBillet statutBillet,
-                         contratId UUID REFERENCES contrats(id) ON DELETE CASCADE,
-                         offreId UUID REFERENCES promotions(id) ON DELETE SET NULL
+                         type_transport VARCHAR(50) CHECK (type_transport IN ('avion', 'train', 'bus')),
+                         prix_achat DECIMAL,
+                         prix_vente DECIMAL,
+                         date_vente TIMESTAMP,
+                         statut_billet VARCHAR(50) CHECK (statut_billet IN ('vendu', 'annule', 'en attente')),
+                         contrat_id UUID REFERENCES contrats(id) ON DELETE CASCADE,
+                         offre_id UUID REFERENCES promotions(id) ON DELETE SET NULL
 );
