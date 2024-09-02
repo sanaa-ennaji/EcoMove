@@ -1,7 +1,7 @@
-package name.model;
+package main.java.ma.EcoMove.B1.model;
 
-import name.enums.TypeTransport;
-import name.enums.StatutPartenaire;
+import main.java.ma.EcoMove.B1.model.enums.TypeTransport;
+import main.java.ma.EcoMove.B1.model.enums.StatutPartenaire;
 import java.util.UUID;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +21,21 @@ public class Partenaire {
     public Partenaire() {}
 
 
+    public Partenaire(UUID id, String nomCompagnie, String contactCommercial, TypeTransport typeTransport,
+                      String zoneGeographique, String conditionsSpeciales, StatutPartenaire statutPartenaire,
+                      Date dateCreation, List<Contrat> contrats) {
+        this.id = id;
+        this.nomCompagnie = nomCompagnie;
+        this.contactCommercial = contactCommercial;
+        this.typeTransport = typeTransport;
+        this.zoneGeographique = zoneGeographique;
+        this.conditionsSpeciales = conditionsSpeciales;
+        this.statutPartenaire = statutPartenaire;
+        this.dateCreation = dateCreation;
+        this.contrats = contrats;
+    }
+
+    // Getters and Setters
     public UUID getId() {
         return id;
     }
