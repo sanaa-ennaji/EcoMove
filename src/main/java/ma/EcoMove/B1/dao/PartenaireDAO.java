@@ -36,15 +36,8 @@ public class PartenaireDAO implements IPartenaireDAO {
     @Override
     public Partenaire getPartenaireById(UUID id) throws SQLException {
         String sql = "SELECT * FROM partenaires WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setObject(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return mapResultSetToPartenaire(rs);
-            } else {
-                return null;
-            }
-        }
+        Partenaire partenaire = findPartenaireById(id, sql);
+        return partenaire;
     }
 
     @Override
@@ -82,6 +75,18 @@ public class PartenaireDAO implements IPartenaireDAO {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setObject(1, id);
             stmt.executeUpdate();
+        }
+    }
+
+    private Partenaire findPartenaireById(UUID id, String sql) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setObject(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return mapResultSetToPartenaire(rs);
+            } else {
+                return null;
+            }
         }
     }
 
