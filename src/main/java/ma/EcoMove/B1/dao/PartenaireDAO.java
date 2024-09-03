@@ -1,5 +1,6 @@
 package main.java.ma.EcoMove.B1.dao;
 
+import main.java.ma.EcoMove.B1.dao.IDAO.IPartenaireDAO;
 import main.java.ma.EcoMove.B1.model.Partenaire;
 import main.java.ma.EcoMove.B1.model.enums.StatutPartenaire;
 import main.java.ma.EcoMove.B1.model.enums.TypeTransport;

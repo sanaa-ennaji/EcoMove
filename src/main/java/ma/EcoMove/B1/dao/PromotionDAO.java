@@ -1,5 +1,6 @@
 package main.java.ma.EcoMove.B1.dao;
 
+import main.java.ma.EcoMove.B1.dao.IDAO.IPromotionDAO;
 import main.java.ma.EcoMove.B1.model.Promotion;
 import main.java.ma.EcoMove.B1.model.enums.TypeReduction;
 import main.java.ma.EcoMove.B1.model.enums.StatutOffre;
@@ -98,7 +99,6 @@ public class PromotionDAO implements IPromotionDAO {
         promotion.setValeurReduction(rs.getBigDecimal("valeurReduction"));
         promotion.setConditions(rs.getString("conditions"));
         promotion.setStatutOffre(StatutOffre.valueOf(rs.getString("statutOffre")));
-        // Set `Contrat` from `contrat_id` if needed
         return promotion;
     }
 }

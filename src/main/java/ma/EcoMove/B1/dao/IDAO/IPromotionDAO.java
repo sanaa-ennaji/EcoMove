@@ -1,4 +1,4 @@
-package main.java.ma.EcoMove.B1.dao;
+package main.java.ma.EcoMove.B1.dao.IDAO;
 
 import main.java.ma.EcoMove.B1.model.Promotion;
 import java.sql.SQLException;

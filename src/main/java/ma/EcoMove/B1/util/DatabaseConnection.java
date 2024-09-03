@@ -7,15 +7,12 @@ import java.sql.SQLException;
 public class DatabaseConnection {
     private static DatabaseConnection instance;
     private Connection connection;
-    private static final String URL = "jdbc:postgresql://localhost:5432/";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "password";
 
     private DatabaseConnection(String dbname, String user, String pass) {
         try {
-            this.connection = DriverManager.getConnection(URL + dbname, user, pass);
+            this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + "EcoMove", "postgres", "password");
             if (this.connection != null) {
-                System.out.println("Connection established successfully!");
+                System.out.println("Connection done!");
             } else {
                 System.out.println("Connection failed!!");
             }
@@ -24,7 +21,6 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
     }
-
 
     public static synchronized DatabaseConnection getInstance(String dbname, String user, String pass) {
         if (instance == null) {

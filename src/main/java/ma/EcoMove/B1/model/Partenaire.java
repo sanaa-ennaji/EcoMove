@@ -35,7 +35,7 @@ public class Partenaire {
         this.contrats = contrats;
     }
 
-    // Getters and Setters
+
     public UUID getId() {
         return id;
     }
@@ -108,3 +108,4 @@ public class Partenaire {
         this.contrats = contrats;
     }
 }
+

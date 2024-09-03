@@ -1,5 +1,6 @@
 package main.java.ma.EcoMove.B1.dao;
 
+import main.java.ma.EcoMove.B1.dao.IDAO.IContratDAO;
 import main.java.ma.EcoMove.B1.model.Contrat;
 import main.java.ma.EcoMove.B1.model.enums.StatutContrat;
 import java.sql.*;

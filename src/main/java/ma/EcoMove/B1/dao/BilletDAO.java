@@ -1,5 +1,6 @@
 package main.java.ma.EcoMove.B1.dao;
 
+import main.java.ma.EcoMove.B1.dao.IDAO.IBilletDAO;
 import main.java.ma.EcoMove.B1.model.Billet;
 import main.java.ma.EcoMove.B1.model.enums.TypeTransport;
 import main.java.ma.EcoMove.B1.model.enums.StatutBillet;
