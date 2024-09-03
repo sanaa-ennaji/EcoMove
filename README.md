@@ -1,6 +1,9 @@
 # EcoMove
 Brief 1:
-Titre: Application Java de réservation des billets de transport
+Application Java de réservation des billets de transport
+
+![alt text](https://github.com/sanaa-ennaji/EcoMove/blob/main/assets/Diagramme%20sans%20nom.drawio%20(1).png) 
+
 Description rapide: Application console de réservation et vente de billets de transport
 Contexte:
 EcoMove est une société innovante spécialisée dans la composition et la vente de billets de
@@ -54,4 +57,4 @@ Validation des données
 Respect maximal des principes SOLID
 Bon maitrise et compréhension des concepts implémentés
 
-![alt text](https://github.com/sanaa-ennaji/EcoMove/blob/main/assets/Diagramme%20sans%20nom.drawio%20(1).png) 
+
