@@ -1,6 +1,6 @@
 # EcoMove
 Brief 1:
-Titre: Application Java de réservation des billets de transport
+Application Java de réservation des billets de transport
 
 ![alt text](https://github.com/sanaa-ennaji/EcoMove/blob/main/assets/Diagramme%20sans%20nom.drawio%20(1).png) 
 
