@@ -35,7 +35,6 @@ public class PartenaireDAO implements IPartenaire {
 
     @Override
     public Partenaire getPartenaireById(UUID id) throws SQLException {
-        // Use the reusable method
         return findPartenaireById(id);
     }
 
@@ -54,7 +53,7 @@ public class PartenaireDAO implements IPartenaire {
 
     @Override
     public void updatePartenaire(Partenaire partenaire) throws SQLException {
-        // Check if the Partenaire exists before updating
+
         Partenaire existingPartenaire = findPartenaireById(partenaire.getId());
         if (existingPartenaire == null) {
             throw new SQLException("Partenaire with ID " + partenaire.getId() + " not found.");
@@ -76,7 +75,7 @@ public class PartenaireDAO implements IPartenaire {
 
     @Override
     public void deletePartenaire(UUID id) throws SQLException {
-        // Check if the Partenaire exists before deleting
+
         Partenaire existingPartenaire = findPartenaireById(id);
         if (existingPartenaire == null) {
             throw new SQLException("Partenaire with ID " + id + " not found.");
@@ -89,7 +88,7 @@ public class PartenaireDAO implements IPartenaire {
         }
     }
 
-    // Reusable method to find a Partenaire by ID
+
     private Partenaire findPartenaireById(UUID id) throws SQLException {
         String sql = "SELECT * FROM partenaires WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -103,7 +102,7 @@ public class PartenaireDAO implements IPartenaire {
         }
     }
 
-    // Helper method to map a ResultSet to a Partenaire object
+
     private Partenaire mapResultSetToPartenaire(ResultSet rs) throws SQLException {
         Partenaire partenaire = new Partenaire();
         partenaire.setId((UUID) rs.getObject("id"));

@@ -55,7 +55,6 @@ public class PromotionDAO implements IPromotion {
 
     @Override
     public void updatePromotion(Promotion promotion) throws SQLException {
-        // Check if the Promotion exists before updating
         Promotion existingPromotion = findPromotionById(promotion.getId());
         if (existingPromotion == null) {
             throw new SQLException("Promotion with ID " + promotion.getId() + " not found.");
@@ -79,7 +78,6 @@ public class PromotionDAO implements IPromotion {
 
     @Override
     public void deletePromotion(UUID id) throws SQLException {
-        // Check if the Promotion exists before deleting
         Promotion existingPromotion = findPromotionById(id);
         if (existingPromotion == null) {
             throw new SQLException("Promotion with ID " + id + " not found.");

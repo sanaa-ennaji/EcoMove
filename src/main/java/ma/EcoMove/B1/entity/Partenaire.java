@@ -104,6 +104,7 @@ public class Partenaire {
         return contrats;
     }
 
+
     public void setContrats(List<Contrat> contrats) {
         this.contrats = contrats;
     }

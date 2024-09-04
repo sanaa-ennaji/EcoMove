@@ -33,7 +33,6 @@ public class ContratDAO implements IContrat {
 
     @Override
     public Contrat getContratById(UUID id) throws SQLException {
-        // Use the reusable method
         return findContratById(id);
     }
 
@@ -52,7 +51,6 @@ public class ContratDAO implements IContrat {
 
     @Override
     public void updateContrat(Contrat contrat) throws SQLException {
-        // Check if the Contrat exists before updating
         Contrat existingContrat = findContratById(contrat.getId());
         if (existingContrat == null) {
             throw new SQLException("Contrat with ID " + contrat.getId() + " not found.");
@@ -86,7 +84,7 @@ public class ContratDAO implements IContrat {
         }
     }
 
-    // Reusable method to find a Contrat by ID
+
     private Contrat findContratById(UUID id) throws SQLException {
         String sql = "SELECT * FROM contrats WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -100,7 +98,7 @@ public class ContratDAO implements IContrat {
         }
     }
 
-    // Helper method to map a ResultSet to a Contrat object
+
     private Contrat mapResultSetToContrat(ResultSet rs) throws SQLException {
         Contrat contrat = new Contrat();
         contrat.setId((UUID) rs.getObject("id"));

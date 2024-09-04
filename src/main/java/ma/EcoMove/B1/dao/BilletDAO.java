@@ -34,7 +34,6 @@ public class BilletDAO implements IBillet {
 
     @Override
     public Billet getBilletById(UUID id) throws SQLException {
-        // Use the reusable method
         return findBilletById(id);
     }
 
@@ -74,7 +73,6 @@ public class BilletDAO implements IBillet {
 
     @Override
     public void deleteBillet(UUID id) throws SQLException {
-        // Check if the Billet exists before deleting
         Billet existingBillet = findBilletById(id);
         if (existingBillet == null) {
             throw new SQLException("Billet with ID " + id + " not found.");
@@ -87,7 +85,7 @@ public class BilletDAO implements IBillet {
         }
     }
 
-    // Reusable method to find a Billet by ID
+
     private Billet findBilletById(UUID id) throws SQLException {
         String sql = "SELECT * FROM billets WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -101,7 +99,7 @@ public class BilletDAO implements IBillet {
         }
     }
 
-    // Helper method to map a ResultSet to a Billet object
+
     private Billet mapResultSetToBillet(ResultSet rs) throws SQLException {
         Billet billet = new Billet();
         billet.setId((UUID) rs.getObject("id"));
@@ -110,7 +108,7 @@ public class BilletDAO implements IBillet {
         billet.setPrixVente(rs.getBigDecimal("prixVente"));
         billet.setDateVente(rs.getDate("dateVente"));
         billet.setStatutBillet(StatutBillet.valueOf(rs.getString("statutBillet")));
-        // Set the Contrat based on contrat_id if needed (not shown here)
+        // Set the Contrat based on contrat_id
         return billet;
     }
 }
