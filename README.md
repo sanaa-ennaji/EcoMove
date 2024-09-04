@@ -42,8 +42,9 @@ gardant une trace des transactions financières et des statistiques de vente.
 partenaire a gagné via la plateforme sur une période donnée.
 ● Un billet est caractérisé par:
 
-Les technologies et concepts à utiliser et à connaître/Maîtriser :
-● JVM, JDK, JRE
+Les technologies et concepts à utiliser et à connaître/Maîtriser  :
+
+● JVM, JDK, JRE <br>
 ● UML
 ● Java POO
 ● Base de données postgresql
