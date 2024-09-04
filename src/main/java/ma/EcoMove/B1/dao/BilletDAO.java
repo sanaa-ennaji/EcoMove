@@ -90,7 +90,7 @@ public class BilletDAO implements IBilletDAO {
         billet.setPrixVente(rs.getBigDecimal("prixVente"));
         billet.setDateVente(rs.getDate("dateVente"));
         billet.setStatutBillet(StatutBillet.valueOf(rs.getString("statutBillet")));
-        //  `Contrat` from `contrat_id`
         return billet;
+        //  `Contrat` from `contrat_id`
     }
 }
