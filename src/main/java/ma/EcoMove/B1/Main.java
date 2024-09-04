@@ -16,7 +16,7 @@ public class Main {
             System.out.println("Connection done!");
             try {
                 con.close();
-                System.out.println("connection closed.");
+                System.out.println("con closed.");
             } catch (Exception e) {
                 System.out.println("Error closing : " + e.getMessage());
             }
