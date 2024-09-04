@@ -1,9 +1,9 @@
-package main.java.ma.EcoMove.B1.model;
+package main.java.ma.EcoMove.B1.entity;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.Date;
-import main.java.ma.EcoMove.B1.model.enums.StatutContrat;
+import main.java.ma.EcoMove.B1.enums.StatutContrat;
 
 public class Contrat {
     private UUID id;

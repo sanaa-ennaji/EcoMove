@@ -1,7 +1,7 @@
-package main.java.ma.EcoMove.B1.model;
+package main.java.ma.EcoMove.B1.entity;
 
-import main.java.ma.EcoMove.B1.model.enums.TypeTransport;
-import main.java.ma.EcoMove.B1.model.enums.StatutPartenaire;
+import main.java.ma.EcoMove.B1.enums.TypeTransport;
+import main.java.ma.EcoMove.B1.enums.StatutPartenaire;
 import java.util.UUID;
 import java.util.Date;
 import java.util.List;

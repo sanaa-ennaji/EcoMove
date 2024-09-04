@@ -1,4 +1,4 @@
-package main.java.ma.EcoMove.B1.model.enums;
+package main.java.ma.EcoMove.B1.enums;
 
 public enum TypeReduction {
     POURCENTAGE,

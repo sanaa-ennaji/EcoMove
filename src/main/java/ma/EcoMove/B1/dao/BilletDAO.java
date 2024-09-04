@@ -1,15 +1,16 @@
 package main.java.ma.EcoMove.B1.dao;
 
-import main.java.ma.EcoMove.B1.dao.IDAO.IBilletDAO;
-import main.java.ma.EcoMove.B1.model.Billet;
-import main.java.ma.EcoMove.B1.model.enums.TypeTransport;
-import main.java.ma.EcoMove.B1.model.enums.StatutBillet;
+import main.java.ma.EcoMove.B1.dao.Interface.IBillet;
+import main.java.ma.EcoMove.B1.entity.Billet;
+import main.java.ma.EcoMove.B1.enums.TypeTransport;
+import main.java.ma.EcoMove.B1.enums.StatutBillet;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class BilletDAO implements IBilletDAO {
+public class BilletDAO implements IBillet {
     private final Connection connection;
 
     public BilletDAO(Connection connection) {
@@ -33,16 +34,8 @@ public class BilletDAO implements IBilletDAO {
 
     @Override
     public Billet getBilletById(UUID id) throws SQLException {
-        String sql = "SELECT * FROM billets WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setObject(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return mapResultSetToBillet(rs);
-            } else {
-                return null;
-            }
-        }
+        // Use the reusable method
+        return findBilletById(id);
     }
 
     @Override
@@ -60,6 +53,12 @@ public class BilletDAO implements IBilletDAO {
 
     @Override
     public void updateBillet(Billet billet) throws SQLException {
+        // Check if the Billet exists before updating
+        Billet existingBillet = findBilletById(billet.getId());
+        if (existingBillet == null) {
+            throw new SQLException("Billet with ID " + billet.getId() + " not found.");
+        }
+
         String sql = "UPDATE billets SET typeTransport = ?, prixAchat = ?, prixVente = ?, dateVente = ?, statutBillet = ?, contrat_id = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, billet.getTypeTransport().name());
@@ -75,6 +74,12 @@ public class BilletDAO implements IBilletDAO {
 
     @Override
     public void deleteBillet(UUID id) throws SQLException {
+        // Check if the Billet exists before deleting
+        Billet existingBillet = findBilletById(id);
+        if (existingBillet == null) {
+            throw new SQLException("Billet with ID " + id + " not found.");
+        }
+
         String sql = "DELETE FROM billets WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setObject(1, id);
@@ -82,6 +87,21 @@ public class BilletDAO implements IBilletDAO {
         }
     }
 
+    // Reusable method to find a Billet by ID
+    private Billet findBilletById(UUID id) throws SQLException {
+        String sql = "SELECT * FROM billets WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setObject(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return mapResultSetToBillet(rs);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    // Helper method to map a ResultSet to a Billet object
     private Billet mapResultSetToBillet(ResultSet rs) throws SQLException {
         Billet billet = new Billet();
         billet.setId((UUID) rs.getObject("id"));
@@ -90,7 +110,7 @@ public class BilletDAO implements IBilletDAO {
         billet.setPrixVente(rs.getBigDecimal("prixVente"));
         billet.setDateVente(rs.getDate("dateVente"));
         billet.setStatutBillet(StatutBillet.valueOf(rs.getString("statutBillet")));
+        // Set the Contrat based on contrat_id if needed (not shown here)
         return billet;
-        //  `Contrat` from `contrat_id`
     }
 }

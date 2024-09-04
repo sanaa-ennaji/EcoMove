@@ -1,16 +1,16 @@
 package main.java.ma.EcoMove.B1.dao;
 
-import main.java.ma.EcoMove.B1.dao.IDAO.IPartenaireDAO;
-import main.java.ma.EcoMove.B1.model.Partenaire;
-import main.java.ma.EcoMove.B1.model.enums.StatutPartenaire;
-import main.java.ma.EcoMove.B1.model.enums.TypeTransport;
+import main.java.ma.EcoMove.B1.dao.Interface.IPartenaire;
+import main.java.ma.EcoMove.B1.entity.Partenaire;
+import main.java.ma.EcoMove.B1.enums.StatutPartenaire;
+import main.java.ma.EcoMove.B1.enums.TypeTransport;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class PartenaireDAO implements IPartenaireDAO {
+public class PartenaireDAO implements IPartenaire {
     private final Connection connection;
 
     public PartenaireDAO(Connection connection) {
@@ -35,9 +35,8 @@ public class PartenaireDAO implements IPartenaireDAO {
 
     @Override
     public Partenaire getPartenaireById(UUID id) throws SQLException {
-        String sql = "SELECT * FROM partenaires WHERE id = ?";
-        Partenaire partenaire = findPartenaireById(id, sql);
-        return partenaire;
+        // Use the reusable method
+        return findPartenaireById(id);
     }
 
     @Override
@@ -55,6 +54,12 @@ public class PartenaireDAO implements IPartenaireDAO {
 
     @Override
     public void updatePartenaire(Partenaire partenaire) throws SQLException {
+        // Check if the Partenaire exists before updating
+        Partenaire existingPartenaire = findPartenaireById(partenaire.getId());
+        if (existingPartenaire == null) {
+            throw new SQLException("Partenaire with ID " + partenaire.getId() + " not found.");
+        }
+
         String sql = "UPDATE partenaires SET nomCompagnie = ?, contactCommercial = ?, typeTransport = ?, zoneGeographique = ?, conditionsSpeciales = ?, statutPartenaire = ?, dateCreation = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, partenaire.getNomCompagnie());
@@ -71,6 +76,12 @@ public class PartenaireDAO implements IPartenaireDAO {
 
     @Override
     public void deletePartenaire(UUID id) throws SQLException {
+        // Check if the Partenaire exists before deleting
+        Partenaire existingPartenaire = findPartenaireById(id);
+        if (existingPartenaire == null) {
+            throw new SQLException("Partenaire with ID " + id + " not found.");
+        }
+
         String sql = "DELETE FROM partenaires WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setObject(1, id);
@@ -78,7 +89,9 @@ public class PartenaireDAO implements IPartenaireDAO {
         }
     }
 
-    private Partenaire findPartenaireById(UUID id, String sql) throws SQLException {
+    // Reusable method to find a Partenaire by ID
+    private Partenaire findPartenaireById(UUID id) throws SQLException {
+        String sql = "SELECT * FROM partenaires WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setObject(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -90,6 +103,7 @@ public class PartenaireDAO implements IPartenaireDAO {
         }
     }
 
+    // Helper method to map a ResultSet to a Partenaire object
     private Partenaire mapResultSetToPartenaire(ResultSet rs) throws SQLException {
         Partenaire partenaire = new Partenaire();
         partenaire.setId((UUID) rs.getObject("id"));

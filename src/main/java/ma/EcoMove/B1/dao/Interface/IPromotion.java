@@ -1,11 +1,11 @@
-package main.java.ma.EcoMove.B1.dao.IDAO;
+package main.java.ma.EcoMove.B1.dao.Interface;
 
-import main.java.ma.EcoMove.B1.model.Promotion;
+import main.java.ma.EcoMove.B1.entity.Promotion;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
-public interface IPromotionDAO {
+public interface IPromotion {
     void createPromotion(Promotion promotion) throws SQLException;
     Promotion getPromotionById(UUID id) throws SQLException;
     List<Promotion> getAllPromotions() throws SQLException;

@@ -1,14 +1,15 @@
 package main.java.ma.EcoMove.B1.dao;
 
-import main.java.ma.EcoMove.B1.dao.IDAO.IContratDAO;
-import main.java.ma.EcoMove.B1.model.Contrat;
-import main.java.ma.EcoMove.B1.model.enums.StatutContrat;
+import main.java.ma.EcoMove.B1.dao.Interface.IContrat;
+import main.java.ma.EcoMove.B1.entity.Contrat;
+import main.java.ma.EcoMove.B1.enums.StatutContrat;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class ContratDAO implements IContratDAO {
+public class ContratDAO implements IContrat {
     private final Connection connection;
 
     public ContratDAO(Connection connection) {
@@ -32,16 +33,8 @@ public class ContratDAO implements IContratDAO {
 
     @Override
     public Contrat getContratById(UUID id) throws SQLException {
-        String sql = "SELECT * FROM contrats WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setObject(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return mapResultSetToContrat(rs);
-            } else {
-                return null;
-            }
-        }
+        // Use the reusable method
+        return findContratById(id);
     }
 
     @Override
@@ -59,6 +52,12 @@ public class ContratDAO implements IContratDAO {
 
     @Override
     public void updateContrat(Contrat contrat) throws SQLException {
+        // Check if the Contrat exists before updating
+        Contrat existingContrat = findContratById(contrat.getId());
+        if (existingContrat == null) {
+            throw new SQLException("Contrat with ID " + contrat.getId() + " not found.");
+        }
+
         String sql = "UPDATE contrats SET dateDebut = ?, dateFin = ?, tarifSpecial = ?, conditionsAccord = ?, renouvelable = ?, statutContrat = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setDate(1, new java.sql.Date(contrat.getDateDebut().getTime()));
@@ -74,6 +73,12 @@ public class ContratDAO implements IContratDAO {
 
     @Override
     public void deleteContrat(UUID id) throws SQLException {
+        // Check if the Contrat exists before deleting
+        Contrat existingContrat = findContratById(id);
+        if (existingContrat == null) {
+            throw new SQLException("Contrat with ID " + id + " not found.");
+        }
+
         String sql = "DELETE FROM contrats WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setObject(1, id);
@@ -81,6 +86,21 @@ public class ContratDAO implements IContratDAO {
         }
     }
 
+    // Reusable method to find a Contrat by ID
+    private Contrat findContratById(UUID id) throws SQLException {
+        String sql = "SELECT * FROM contrats WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setObject(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return mapResultSetToContrat(rs);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    // Helper method to map a ResultSet to a Contrat object
     private Contrat mapResultSetToContrat(ResultSet rs) throws SQLException {
         Contrat contrat = new Contrat();
         contrat.setId((UUID) rs.getObject("id"));

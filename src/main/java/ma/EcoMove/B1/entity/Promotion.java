@@ -1,7 +1,7 @@
-package main.java.ma.EcoMove.B1.model;
+package main.java.ma.EcoMove.B1.entity;
 
-import main.java.ma.EcoMove.B1.model.enums.TypeReduction;
-import main.java.ma.EcoMove.B1.model.enums.StatutOffre;
+import main.java.ma.EcoMove.B1.enums.TypeReduction;
+import main.java.ma.EcoMove.B1.enums.StatutOffre;
 import java.util.UUID;
 import java.util.Date;
 import java.math.BigDecimal;

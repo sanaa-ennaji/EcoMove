@@ -1,15 +1,16 @@
 package main.java.ma.EcoMove.B1.dao;
 
-import main.java.ma.EcoMove.B1.dao.IDAO.IPromotionDAO;
-import main.java.ma.EcoMove.B1.model.Promotion;
-import main.java.ma.EcoMove.B1.model.enums.TypeReduction;
-import main.java.ma.EcoMove.B1.model.enums.StatutOffre;
+import main.java.ma.EcoMove.B1.dao.Interface.IPromotion;
+import main.java.ma.EcoMove.B1.entity.Promotion;
+import main.java.ma.EcoMove.B1.enums.TypeReduction;
+import main.java.ma.EcoMove.B1.enums.StatutOffre;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class PromotionDAO implements IPromotionDAO {
+public class PromotionDAO implements IPromotion {
     private final Connection connection;
 
     public PromotionDAO(Connection connection) {
@@ -36,16 +37,7 @@ public class PromotionDAO implements IPromotionDAO {
 
     @Override
     public Promotion getPromotionById(UUID id) throws SQLException {
-        String sql = "SELECT * FROM promotions WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setObject(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return mapResultSetToPromotion(rs);
-            } else {
-                return null;
-            }
-        }
+        return findPromotionById(id);
     }
 
     @Override
@@ -63,6 +55,12 @@ public class PromotionDAO implements IPromotionDAO {
 
     @Override
     public void updatePromotion(Promotion promotion) throws SQLException {
+        // Check if the Promotion exists before updating
+        Promotion existingPromotion = findPromotionById(promotion.getId());
+        if (existingPromotion == null) {
+            throw new SQLException("Promotion with ID " + promotion.getId() + " not found.");
+        }
+
         String sql = "UPDATE promotions SET nomOffre = ?, description = ?, dateDebut = ?, dateFin = ?, typeReduction = ?, valeurReduction = ?, conditions = ?, statutOffre = ?, contrat_id = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, promotion.getNomOffre());
@@ -81,12 +79,33 @@ public class PromotionDAO implements IPromotionDAO {
 
     @Override
     public void deletePromotion(UUID id) throws SQLException {
+        // Check if the Promotion exists before deleting
+        Promotion existingPromotion = findPromotionById(id);
+        if (existingPromotion == null) {
+            throw new SQLException("Promotion with ID " + id + " not found.");
+        }
+
         String sql = "DELETE FROM promotions WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setObject(1, id);
             stmt.executeUpdate();
         }
     }
+
+    // Reusable method to find a Promotion by ID
+    private Promotion findPromotionById(UUID id) throws SQLException {
+        String sql = "SELECT * FROM promotions WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setObject(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return mapResultSetToPromotion(rs);
+            } else {
+                return null;
+            }
+        }
+    }
+
 
     private Promotion mapResultSetToPromotion(ResultSet rs) throws SQLException {
         Promotion promotion = new Promotion();
@@ -99,6 +118,7 @@ public class PromotionDAO implements IPromotionDAO {
         promotion.setValeurReduction(rs.getBigDecimal("valeurReduction"));
         promotion.setConditions(rs.getString("conditions"));
         promotion.setStatutOffre(StatutOffre.valueOf(rs.getString("statutOffre")));
+        // Set the Contrat based on contrat_id if needed (not shown here)
         return promotion;
     }
 }
