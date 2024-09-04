@@ -2,7 +2,7 @@
 Brief 1:
 Application Java de réservation des billets de transport
 
-![alt text](https://github.com/sanaa-ennaji/EcoMove/blob/main/assets/Diagramme%20sans%20nom.drawio%20(1).png) 
+![alt text](https://github.com/sanaa-ennaji/EcoMovee/blob/main/assets/Diagramme%20sans%20nom.drawio%20(1).png) 
 
 Description rapide: Application console de réservation et vente de billets de transport
 Contexte:
