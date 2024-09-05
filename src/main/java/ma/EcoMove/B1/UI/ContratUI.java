@@ -8,6 +8,10 @@ import main.java.ma.EcoMove.B1.service.PartenaireService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -15,6 +19,7 @@ public class ContratUI {
     private final ContratService contratService;
     private final PartenaireService partenaireService;
     private final Scanner scanner = new Scanner(System.in);
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public ContratUI(Connection connection) {
         this.contratService = new ContratService(connection);
@@ -23,153 +28,157 @@ public class ContratUI {
 
     public void start() {
         while (true) {
-            System.out.println("\nGestion des Contrats:");
-            System.out.println("1. Créer un contrat");
-            System.out.println("2. Afficher tous les contrats");
-            System.out.println("3. Rechercher un contrat par ID");
-            System.out.println("4. Mettre à jour un contrat");
-            System.out.println("5. Supprimer un contrat");
-            System.out.println("6. Quitter");
+            System.out.println("1. Create Contrat");
+            System.out.println("2. Get Contrat by ID");
+            System.out.println("3. Get All Contrats");
+            System.out.println("4. Update Contrat");
+            System.out.println("5. Delete Contrat");
+            System.out.println("6. Exit");
+            System.out.print("Select an option: ");
 
-            int choice = Integer.parseInt(scanner.nextLine());
+            int option = scanner.nextInt();
+            scanner.nextLine();
 
-            try {
-                switch (choice) {
-                    case 1:
-                        createContrat();
-                        break;
-                    case 2:
-                        listContrats();
-                        break;
-                    case 3:
-                        getContratById();
-                        break;
-                    case 4:
-                        updateContrat();
-                        break;
-                    case 5:
-                        deleteContrat();
-                        break;
-                    case 6:
-                        System.exit(0);
-                    default:
-                        System.out.println("Choix invalide.");
-                }
-            } catch (SQLException | IllegalArgumentException e) {
-                System.out.println("Erreur: " + e.getMessage());
+            switch (option) {
+                case 1:
+                    createContrat();
+                    break;
+                case 2:
+                    getContratById();
+                    break;
+                case 3:
+                    getAllContrats();
+                    break;
+                case 4:
+                    updateContrat();
+                    break;
+                case 5:
+                    deleteContrat();
+                    break;
+                case 6:
+                    System.out.println("Exiting...");
+                    return;
+                default:
+                    System.out.println("Invalid option.");
             }
         }
     }
 
-    private void createContrat() throws SQLException {
-        System.out.println("\n--- Créer un nouveau contrat ---");
-        Contrat contrat = new Contrat();
+    private void createContrat() {
+        try {
+            System.out.print("Enter Partenaire ID: ");
+            UUID partenaireId = UUID.fromString(scanner.nextLine());
+            Partenaire partenaire = partenaireService.getPartenaireById(partenaireId);
+            if (partenaire == null) {
+                System.out.println("Partenaire not found.");
+                return;
+            }
 
-        System.out.print("ID Partenaire: ");
-        UUID partenaireId = UUID.fromString(scanner.nextLine());
-        Partenaire partenaire = partenaireService.getPartenaireById(partenaireId);
-        if (partenaire == null) {
-            throw new SQLException("Partenaire not found.");
-        }
-        contrat.setPartenaire(partenaire);
+            System.out.print("Enter start date (yyyy-MM-dd): ");
+            Date startDate = dateFormat.parse(scanner.nextLine());
+            System.out.print("Enter end date (yyyy-MM-dd): ");
+            Date endDate = dateFormat.parse(scanner.nextLine());
+            System.out.print("Enter special rate: ");
+            double specialRate = Double.parseDouble(scanner.nextLine());
+            System.out.print("Enter agreement conditions: ");
+            String agreementConditions = scanner.nextLine();
+            System.out.print("Enter status (ACTIVE, EXPIRED, SUSPENDED): ");
+            StatutContrat status = StatutContrat.valueOf(scanner.nextLine().toUpperCase());
 
-        System.out.print("Date de début (yyyy-MM-dd): ");
-        contrat.setDateDebut(java.sql.Date.valueOf(scanner.nextLine()));
+            Contrat contrat = new Contrat();
+            contrat.setId(UUID.randomUUID());
+            contrat.setPartenaire(partenaire);
+            contrat.setDateDebut(new java.sql.Date(startDate.getTime()));
+            contrat.setDateFin(new java.sql.Date(endDate.getTime()));
+            contrat.setTarifSpecial(specialRate);
+            contrat.setConditionsAccord(agreementConditions);
+            contrat.setStatutContrat(status);
 
-        System.out.print("Date de fin (yyyy-MM-dd): ");
-        contrat.setDateFin(java.sql.Date.valueOf(scanner.nextLine()));
-
-        System.out.print("Tarif spécial: ");
-        contrat.setTarifSpecial(Double.parseDouble(scanner.nextLine()));
-
-        System.out.print("Conditions d'accord: ");
-        contrat.setConditionsAccord(scanner.nextLine());
-
-        System.out.print("Renouvelable (true/false): ");
-        contrat.setRenouvelable(Boolean.parseBoolean(scanner.nextLine()));
-
-        System.out.print("Statut du contrat: ");
-        contrat.setStatutContrat(StatutContrat.valueOf(scanner.nextLine()));
-
-        contrat.setId(UUID.randomUUID());
-        contratService.createContrat(contrat);
-        System.out.println("Contrat créé avec succès.");
-    }
-
-    private void listContrats() throws SQLException {
-        System.out.println("\n--- Liste des contrats ---");
-        for (Contrat contrat : contratService.getAllContrats()) {
-            System.out.println(contrat);
+            contratService.createContrat(contrat);
+            System.out.println("Contrat created successfully.");
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
         }
     }
 
-    private void getContratById() throws SQLException {
-        System.out.print("ID du contrat: ");
-        UUID id = UUID.fromString(scanner.nextLine());
-        Contrat contrat = contratService.getContratById(id);
-        if (contrat != null) {
-            System.out.println(contrat);
-        } else {
-            System.out.println("Contrat introuvable.");
+    private void getContratById() {
+        try {
+            System.out.print("Enter Contrat ID: ");
+            UUID id = UUID.fromString(scanner.nextLine());
+            Contrat contrat = contratService.getContratById(id);
+            if (contrat != null) {
+                System.out.println(contrat);
+            } else {
+                System.out.println("Contrat not found.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    private void updateContrat() throws SQLException {
-        System.out.print("ID du contrat à mettre à jour: ");
-        UUID id = UUID.fromString(scanner.nextLine());
-
-        Contrat existingContrat = contratService.getContratById(id);
-        if (existingContrat == null) {
-            System.out.println("Contrat introuvable.");
-            return;
+    private void getAllContrats() {
+        try {
+            List<Contrat> contrats = contratService.getAllContrats();
+            for (Contrat contrat : contrats) {
+                System.out.println(contrat);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        System.out.println("Laissez les champs vides pour conserver les valeurs actuelles.");
-
-        System.out.print("Date de début actuelle: " + existingContrat.getDateDebut() + " (yyyy-MM-dd): ");
-        String dateDebut = scanner.nextLine();
-        if (!dateDebut.isEmpty()) {
-            existingContrat.setDateDebut(java.sql.Date.valueOf(dateDebut));
-        }
-
-        System.out.print("Date de fin actuelle: " + existingContrat.getDateFin() + " (yyyy-MM-dd): ");
-        String dateFin = scanner.nextLine();
-        if (!dateFin.isEmpty()) {
-            existingContrat.setDateFin(java.sql.Date.valueOf(dateFin));
-        }
-
-        System.out.print("Tarif spécial actuel: " + existingContrat.getTarifSpecial() + ": ");
-        String tarifSpecial = scanner.nextLine();
-        if (!tarifSpecial.isEmpty()) {
-            existingContrat.setTarifSpecial(Double.parseDouble(tarifSpecial));
-        }
-
-        System.out.print("Conditions d'accord actuelles: " + existingContrat.getConditionsAccord() + ": ");
-        String conditionsAccord = scanner.nextLine();
-        if (!conditionsAccord.isEmpty()) {
-            existingContrat.setConditionsAccord(conditionsAccord);
-        }
-
-        System.out.print("Renouvelable actuel: " + existingContrat.isRenouvelable() + " (true/false): ");
-        String renouvelable = scanner.nextLine();
-        if (!renouvelable.isEmpty()) {
-            existingContrat.setRenouvelable(Boolean.parseBoolean(renouvelable));
-        }
-
-        System.out.print("Statut actuel: " + existingContrat.getStatutContrat() + ": ");
-        String statutContrat = scanner.nextLine();
-        if (!statutContrat.isEmpty()) {
-            existingContrat.setStatutContrat(StatutContrat.valueOf(statutContrat));
-        }
-
-        contratService.updateContrat(existingContrat);
-        System.out.println("Contrat mis à jour avec succès.");
     }
 
-    private void deleteContrat() throws SQLException {
-        System.out.print("ID du contrat à supprimer: ");
-        UUID id = UUID.fromString(scanner.nextLine());
-        contratService.deleteContrat(id);
-        System.out.println("Contrat supprimé avec succès.");
+    private void updateContrat() {
+        try {
+            System.out.print("Enter Contrat ID to update: ");
+            UUID id = UUID.fromString(scanner.nextLine());
+            Contrat contrat = contratService.getContratById(id);
+            if (contrat != null) {
+                System.out.print("Enter new start date (yyyy-MM-dd, leave empty to keep current): ");
+                String startDateInput = scanner.nextLine();
+                if (!startDateInput.isEmpty()) {
+                    Date startDate = dateFormat.parse(startDateInput);
+                    contrat.setDateDebut(new java.sql.Date(startDate.getTime()));
+                }
+                System.out.print("Enter new end date (yyyy-MM-dd, leave empty to keep current): ");
+                String endDateInput = scanner.nextLine();
+                if (!endDateInput.isEmpty()) {
+                    Date endDate = dateFormat.parse(endDateInput);
+                    contrat.setDateFin(new java.sql.Date(endDate.getTime()));
+                }
+                System.out.print("Enter new special rate (leave empty to keep current): ");
+                String specialRateInput = scanner.nextLine();
+                if (!specialRateInput.isEmpty()) {
+                    contrat.setTarifSpecial(Double.parseDouble(specialRateInput));
+                }
+                System.out.print("Enter new agreement conditions (leave empty to keep current): ");
+                String agreementConditionsInput = scanner.nextLine();
+                if (!agreementConditionsInput.isEmpty()) {
+                    contrat.setConditionsAccord(agreementConditionsInput);
+                }
+                System.out.print("Enter new status (leave empty to keep current): ");
+                String statusInput = scanner.nextLine();
+                if (!statusInput.isEmpty()) {
+                    contrat.setStatutContrat(StatutContrat.valueOf(statusInput.toUpperCase()));
+                }
+
+                contratService.updateContrat(contrat);
+                System.out.println("Contrat updated successfully.");
+            } else {
+                System.out.println("Contrat not found.");
+            }
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deleteContrat() {
+        try {
+            System.out.print("Enter Contrat ID to delete: ");
+            UUID id = UUID.fromString(scanner.nextLine());
+            contratService.deleteContrat(id);
+            System.out.println("Contrat deleted successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
