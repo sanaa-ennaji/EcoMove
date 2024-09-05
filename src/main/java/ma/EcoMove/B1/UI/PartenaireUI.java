@@ -1,5 +1,4 @@
 package main.java.ma.EcoMove.B1.UI;
-
 import main.java.ma.EcoMove.B1.entity.Partenaire;
 import main.java.ma.EcoMove.B1.enums.StatutPartenaire;
 import main.java.ma.EcoMove.B1.enums.TypeTransport;
@@ -12,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
+
 
 public class PartenaireUI {
     private final PartenaireService partenaireService;

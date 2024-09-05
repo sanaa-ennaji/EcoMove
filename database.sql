@@ -43,5 +43,4 @@ CREATE TABLE billets (
                          date_vente TIMESTAMP,
                          statut_billet VARCHAR(50) CHECK (statut_billet IN ('vendu', 'annule', 'en attente')),
                          contrat_id UUID REFERENCES contrats(id) ON DELETE CASCADE,
-                         offre_id UUID REFERENCES promotions(id) ON DELETE SET NULL
 );

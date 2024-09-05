@@ -1,6 +1,7 @@
 package main.java.ma.EcoMove.B1.dao;
 
 import main.java.ma.EcoMove.B1.dao.Interface.IPromotion;
+import main.java.ma.EcoMove.B1.entity.Contrat;
 import main.java.ma.EcoMove.B1.entity.Promotion;
 import main.java.ma.EcoMove.B1.enums.TypeReduction;
 import main.java.ma.EcoMove.B1.enums.StatutOffre;
@@ -90,7 +91,6 @@ public class PromotionDAO implements IPromotion {
         }
     }
 
-    // Reusable method to find a Promotion by ID
     private Promotion findPromotionById(UUID id) throws SQLException {
         String sql = "SELECT * FROM promotions WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -104,7 +104,6 @@ public class PromotionDAO implements IPromotion {
         }
     }
 
-
     private Promotion mapResultSetToPromotion(ResultSet rs) throws SQLException {
         Promotion promotion = new Promotion();
         promotion.setId((UUID) rs.getObject("id"));
@@ -116,7 +115,13 @@ public class PromotionDAO implements IPromotion {
         promotion.setValeurReduction(rs.getBigDecimal("valeurReduction"));
         promotion.setConditions(rs.getString("conditions"));
         promotion.setStatutOffre(StatutOffre.valueOf(rs.getString("statutOffre")));
-        // Set the Contrat based on contrat_id if needed (not shown here)
+        UUID contratId = (UUID) rs.getObject("contrat_id");
+        if (contratId != null) {
+            Contrat contrat = new Contrat();
+            contrat.setId(contratId);
+            promotion.setContrat(contrat);
+        }
+
         return promotion;
     }
 }

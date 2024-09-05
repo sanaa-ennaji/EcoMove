@@ -16,11 +16,13 @@ public class PrincipalMenu {
                 "jdbc:postgresql://localhost:5432/EcoMove", "postgres", "password");
     }
 
-    public void run() {
+    public void run() throws SQLException {
         while (true) {
             System.out.println("----- Principal Menu -----");
             System.out.println("1. Partenaire Management");
-            System.out.println("2. Other Functionalities");
+            System.out.println("1. contrats  Management");
+            System.out.println("1. Billet  Management");
+            System.out.println("1. Promotion Management");
             System.out.println("3. Exit");
             System.out.print("Select an option: ");
 
@@ -33,10 +35,18 @@ public class PrincipalMenu {
                     partenaireUI.run();
                     break;
                 case 2:
-                    System.out.println("Other functionalities are not implemented yet.");
+                  ContratUI contratUI = new ContratUI(connection);
+                  contratUI.displayMenu();
                     break;
-                case 3:
-                    System.out.println("Exiting...");
+                    case 3:
+                    BilletUI billetUI = new BilletUI(connection);
+                    billetUI.showMenu() ;
+                    break;
+                case 4:
+                   PromotionUI promotionUI = new PromotionUI(connection);
+                   promotionUI.showMenu();
+                case 5:
+                    System.out.println("exiting...");
                     closeConnection();
                     return;
                 default:

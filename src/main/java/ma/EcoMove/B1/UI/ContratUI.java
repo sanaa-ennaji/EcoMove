@@ -1,11 +1,9 @@
 package main.java.ma.EcoMove.B1.UI;
-
 import main.java.ma.EcoMove.B1.entity.Contrat;
 import main.java.ma.EcoMove.B1.entity.Partenaire;
 import main.java.ma.EcoMove.B1.enums.StatutContrat;
 import main.java.ma.EcoMove.B1.service.ContratService;
 import main.java.ma.EcoMove.B1.service.IService.IContratService;
-
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -92,8 +90,8 @@ public class  ContratUI  {
         System.out.print("Enter Partenaire ID (UUID): ");
         UUID partenaireId = UUID.fromString(scanner.nextLine());
 
-        // Assuming Partenaire instance is obtained somehow
-        Partenaire partenaire = new Partenaire();  // Modify this line to fetch actual Partenaire
+
+        Partenaire partenaire = new Partenaire();
 
         Contrat contrat = new Contrat(id, dateDebut, dateFin, tarifSpecial, conditionsAccord, renouvelable, StatutContrat.valueOf(statutContrat), partenaire, null, null);
         contratService.createContrat(contrat);
@@ -173,4 +171,6 @@ public class  ContratUI  {
             throw new RuntimeException("Invalid date format. Expected yyyy-MM-dd.", e);
         }
     }
+
+
 }

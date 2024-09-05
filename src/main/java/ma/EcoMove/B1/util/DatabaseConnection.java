@@ -11,11 +11,7 @@ public class DatabaseConnection {
     private DatabaseConnection(String dbname, String user, String pass) {
         try {
             this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + "EcoMove", "postgres", "password");
-            if (this.connection != null) {
-                System.out.println("Connection done!");
-            } else {
-                System.out.println("Connection failed!!");
-            }
+          
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
             e.printStackTrace();

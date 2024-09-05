@@ -108,7 +108,13 @@ public class BilletDAO implements IBillet {
         billet.setPrixVente(rs.getBigDecimal("prixVente"));
         billet.setDateVente(rs.getDate("dateVente"));
         billet.setStatutBillet(StatutBillet.valueOf(rs.getString("statutBillet")));
-        // Set the Contrat based on contrat_id
+        UUID contratId = (UUID) rs.getObject("contrat_id");
+        if (contratId != null) {
+            ContratDAO contratDAO = new ContratDAO(connection);
+            billet.setContrat(contratDAO.getContratById(contratId));
+        }
+
         return billet;
     }
+
 }
