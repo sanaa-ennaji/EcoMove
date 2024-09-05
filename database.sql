@@ -25,7 +25,7 @@ CREATE TABLE contrats (
 
 CREATE TABLE promotions (
                             id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-                            nom_offre VARCHAR(255),
+                            nomOffre VARCHAR(255),
                             description TEXT,
                             dateDebut DATE,
                             dateFin DATE,
@@ -37,10 +37,10 @@ CREATE TABLE promotions (
 
 CREATE TABLE billets (
                          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-                         type_transport VARCHAR(50) CHECK (type_transport IN ('avion', 'train', 'bus')),
-                         prix_achat DECIMAL,
-                         prix_vente DECIMAL,
-                         date_vente TIMESTAMP,
-                         statut_billet VARCHAR(50) CHECK (statut_billet IN ('vendu', 'annule', 'en attente')),
+                         typeTransport VARCHAR(50) CHECK (type_transport IN ('avion', 'train', 'bus')),
+                         prixAchat DECIMAL,
+                         prixVente DECIMAL,
+                         dateVente TIMESTAMP,
+                         statutBillet VARCHAR(50) CHECK (statut_billet IN ('vendu', 'annule', 'en attente')),
                          contrat_id UUID REFERENCES contrats(id) ON DELETE CASCADE,
 );

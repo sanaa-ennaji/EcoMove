@@ -1,13 +1,9 @@
 package main.java.ma.EcoMove.B1.dao;
-
 import main.java.ma.EcoMove.B1.dao.Interface.IContrat;
 import main.java.ma.EcoMove.B1.entity.Contrat;
 import main.java.ma.EcoMove.B1.enums.StatutContrat;
 import main.java.ma.EcoMove.B1.entity.Partenaire;
-import main.java.ma.EcoMove.B1.dao.PartenaireDAO;
-
-
-
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,17 +18,22 @@ public class ContratDAO implements IContrat {
 
     @Override
     public void createContrat(Contrat contrat) throws SQLException {
-        String sql = "INSERT INTO contrats (id, dateDebut, dateFin, tarifSpecial, conditionsAccord, renouvelable, statutContrat, partenaire_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setObject(1, contrat.getId());
-            stmt.setDate(2, new java.sql.Date(contrat.getDateDebut().getTime()));
-            stmt.setDate(3, new java.sql.Date(contrat.getDateFin().getTime()));
-            stmt.setDouble(4, contrat.getTarifSpecial());
-            stmt.setString(5, contrat.getConditionsAccord());
-            stmt.setBoolean(6, contrat.isRenouvelable());
-            stmt.setString(7, contrat.getStatutContrat().name());
-            stmt.setObject(8, contrat.getPartenaire().getId());
-            stmt.executeUpdate();
+        String statutContrat = contrat.getStatutContrat().name().toLowerCase();
+
+        if (contrat.getDateFin().before(contrat.getDateDebut())) {
+            throw new IllegalArgumentException("End date cannot be before start date.");
+        }
+        String sql = "INSERT INTO contrats (id, partenaire_id, dateDebut, dateFin, tarifSpecial, conditionsAccord, renouvelable, statutContrat) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setObject(1, contrat.getId());
+            statement.setObject(2, contrat.getPartenaire().getId());
+            statement.setDate(3, new java.sql.Date(contrat.getDateDebut().getTime()));
+            statement.setDate(4, new java.sql.Date(contrat.getDateFin().getTime()));
+            statement.setBigDecimal(5, BigDecimal.valueOf(contrat.getTarifSpecial()));
+            statement.setString(6, contrat.getConditionsAccord());
+            statement.setBoolean(7, contrat.isRenouvelable());
+            statement.setString(8, statutContrat);
+            statement.executeUpdate();
         }
     }
 
@@ -41,7 +42,6 @@ public class ContratDAO implements IContrat {
     public Contrat getContratById(UUID id) throws SQLException {
         return findContratById(id);
     }
-
 
 
     @Override
@@ -56,6 +56,7 @@ public class ContratDAO implements IContrat {
         }
         return contrats;
     }
+
 
     @Override
     public void updateContrat(Contrat contrat) throws SQLException {
@@ -76,6 +77,7 @@ public class ContratDAO implements IContrat {
             stmt.executeUpdate();
         }
     }
+
 
     @Override
     public void deleteContrat(UUID id) throws SQLException {
@@ -106,7 +108,6 @@ public class ContratDAO implements IContrat {
     }
 
 
-
     private Contrat mapResultSetToContrat(ResultSet rs) throws SQLException {
         Contrat contrat = new Contrat();
         contrat.setId((UUID) rs.getObject("id"));
@@ -119,7 +120,6 @@ public class ContratDAO implements IContrat {
         PartenaireDAO partenaireDAO = new PartenaireDAO(connection);
         Partenaire partenaire = partenaireDAO.getPartenaireById((UUID) rs.getObject("partenaire_id"));
         contrat.setPartenaire(partenaire);
-
         return contrat;
     }
 

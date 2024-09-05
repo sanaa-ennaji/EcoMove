@@ -18,8 +18,9 @@ public class ContratService implements IContratService {
 
     @Override
     public void createContrat(Contrat contrat) throws SQLException {
+
         if (contrat.getDateFin().before(contrat.getDateDebut())) {
-            throw new IllegalArgumentException("invalide date");
+            throw new IllegalArgumentException("End date cannot be before start date.");
         }
         contratDAO.createContrat(contrat);
     }

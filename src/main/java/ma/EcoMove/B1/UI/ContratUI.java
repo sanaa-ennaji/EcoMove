@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
+
 public class ContratUI {
     private final ContratService contratService;
     private final PartenaireService partenaireService;
@@ -66,6 +67,7 @@ public class ContratUI {
 
     private void createContrat() {
         try {
+
             System.out.print("Enter Partenaire ID: ");
             UUID partenaireId = UUID.fromString(scanner.nextLine());
             Partenaire partenaire = partenaireService.getPartenaireById(partenaireId);
@@ -74,16 +76,36 @@ public class ContratUI {
                 return;
             }
 
+            // Get Dates
             System.out.print("Enter start date (yyyy-MM-dd): ");
             Date startDate = dateFormat.parse(scanner.nextLine());
             System.out.print("Enter end date (yyyy-MM-dd): ");
             Date endDate = dateFormat.parse(scanner.nextLine());
+
+            // Get Special Rate
             System.out.print("Enter special rate: ");
             double specialRate = Double.parseDouble(scanner.nextLine());
+
+
             System.out.print("Enter agreement conditions: ");
             String agreementConditions = scanner.nextLine();
-            System.out.print("Enter status (ACTIVE, EXPIRED, SUSPENDED): ");
-            StatutContrat status = StatutContrat.valueOf(scanner.nextLine().toUpperCase());
+
+
+            System.out.print("Enter status (enCours, termine, suspendu): ");
+            String statusInput = scanner.nextLine().toLowerCase();
+
+            StatutContrat status;
+            try {
+                status = StatutContrat.valueOf(statusInput.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid status entered. Must be enCours, termine, or suspendu.");
+                return;
+            }
+
+
+            System.out.print("Is the contract renewable (true/false): ");
+            boolean renouvelable = Boolean.parseBoolean(scanner.nextLine());
+
 
             Contrat contrat = new Contrat();
             contrat.setId(UUID.randomUUID());
@@ -93,6 +115,9 @@ public class ContratUI {
             contrat.setTarifSpecial(specialRate);
             contrat.setConditionsAccord(agreementConditions);
             contrat.setStatutContrat(status);
+            contrat.setRenouvelable(renouvelable);
+
+            System.out.println("Creating Contract with Start Date: " + contrat.getDateDebut() + " and End Date: " + contrat.getDateFin());
 
             contratService.createContrat(contrat);
             System.out.println("Contrat created successfully.");
@@ -100,6 +125,10 @@ public class ContratUI {
             e.printStackTrace();
         }
     }
+
+
+
+
 
     private void getContratById() {
         try {
