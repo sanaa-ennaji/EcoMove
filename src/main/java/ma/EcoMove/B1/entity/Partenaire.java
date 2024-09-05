@@ -36,6 +36,7 @@ public class Partenaire {
     }
 
 
+
     public UUID getId() {
         return id;
     }

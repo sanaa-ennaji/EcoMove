@@ -42,6 +42,8 @@ public class ContratDAO implements IContrat {
         return findContratById(id);
     }
 
+
+
     @Override
     public List<Contrat> getAllContrats() throws SQLException {
         String sql = "SELECT * FROM contrats";
@@ -102,6 +104,7 @@ public class ContratDAO implements IContrat {
             }
         }
     }
+
 
 
     private Contrat mapResultSetToContrat(ResultSet rs) throws SQLException {

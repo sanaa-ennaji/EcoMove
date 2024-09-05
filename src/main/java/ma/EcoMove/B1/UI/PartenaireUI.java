@@ -66,13 +66,13 @@ public class PartenaireUI {
             String nomCompagnie = scanner.nextLine();
             System.out.print("Enter contactCommercial: ");
             String contactCommercial = scanner.nextLine();
-            System.out.print("Enter typeTransport (e.g., BUS, TRAIN): ");
+            System.out.print("Enter typeTransport (BUS, TRAIN): ");
             TypeTransport typeTransport = TypeTransport.valueOf(scanner.nextLine().toUpperCase());
             System.out.print("Enter zoneGeographique: ");
             String zoneGeographique = scanner.nextLine();
             System.out.print("Enter conditionsSpeciales: ");
             String conditionsSpeciales = scanner.nextLine();
-            System.out.print("Enter statutPartenaire (e.g., ACTIVE, INACTIVE): ");
+            System.out.print("Enter statutPartenaire (ACTIF, INACTIF): ");
             StatutPartenaire statutPartenaire = StatutPartenaire.valueOf(scanner.nextLine().toUpperCase());
             System.out.print("Enter dateCreation (yyyy-MM-dd): ");
             Date dateCreation = dateFormat.parse(scanner.nextLine());

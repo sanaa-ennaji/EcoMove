@@ -16,6 +16,7 @@ public class Contrat {
     private Partenaire partenaire;
     private List<Billet> billets;
     private List<Promotion> promotions;
+    private String partenaireNomCompagnie;
 
 
     public Contrat() {}
@@ -116,4 +117,17 @@ public class Contrat {
     public void setPromotions(List<Promotion> promotions) {
         this.promotions = promotions;
     }
+
+    public String getPartenaireNomCompanie()  {
+        return partenaireNomCompagnie;
+    }
+
+
+    public void setPartenaireNomCompagnie(String partenaireNomCompagnie) {
+        this.partenaireNomCompagnie = partenaireNomCompagnie;
+    }
+
+
+
+
 }

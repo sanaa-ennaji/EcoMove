@@ -60,6 +60,7 @@ public class PartenaireService implements IPartenaireService {
         partenaireDAO.deletePartenaire(id);
     }
 
+
     private void validatePartenaire(Partenaire partenaire) throws SQLException {
         if (partenaire.getNomCompagnie() == null || partenaire.getNomCompagnie().isEmpty()) {
             throw new SQLException("NomCompagnie cannot be null or empty.");

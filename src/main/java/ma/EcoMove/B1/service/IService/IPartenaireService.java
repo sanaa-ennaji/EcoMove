@@ -12,4 +12,5 @@ public interface IPartenaireService {
     List<Partenaire> getAllPartenaires() throws SQLException;
     void updatePartenaire(Partenaire partenaire) throws SQLException;
     void deletePartenaire(UUID id) throws SQLException;
+
 }

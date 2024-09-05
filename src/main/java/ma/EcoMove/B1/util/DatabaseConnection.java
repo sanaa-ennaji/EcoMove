@@ -11,7 +11,7 @@ public class DatabaseConnection {
     private DatabaseConnection(String dbname, String user, String pass) {
         try {
             this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + "EcoMove", "postgres", "password");
-          
+
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
             e.printStackTrace();
