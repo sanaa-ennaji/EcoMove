@@ -27,7 +27,7 @@ public class BilletDAO implements IBillet {
             stmt.setBigDecimal(4, billet.getPrixVente());
             stmt.setDate(5, new java.sql.Date(billet.getDateVente().getTime()));
             stmt.setString(6, billet.getStatutBillet().name());
-            stmt.setObject(7, billet.getContrat() != null ? billet.getContrat().getId() : null);
+            stmt.setObject(7, billet.getContrat().getId());
             stmt.executeUpdate();
         }
     }
@@ -52,7 +52,6 @@ public class BilletDAO implements IBillet {
 
     @Override
     public void updateBillet(Billet billet) throws SQLException {
-        // Check if the Billet exists before updating
         Billet existingBillet = findBilletById(billet.getId());
         if (existingBillet == null) {
             throw new SQLException("Billet with ID " + billet.getId() + " not found.");

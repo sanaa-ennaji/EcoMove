@@ -1,9 +1,11 @@
 package main.java.ma.EcoMove.B1.UI;
 
 import main.java.ma.EcoMove.B1.entity.Billet;
+import main.java.ma.EcoMove.B1.entity.Contrat;
 import main.java.ma.EcoMove.B1.enums.TypeTransport;
 import main.java.ma.EcoMove.B1.enums.StatutBillet;
 import main.java.ma.EcoMove.B1.service.BilletService;
+import main.java.ma.EcoMove.B1.service.ContratService;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -15,9 +17,10 @@ import java.util.UUID;
 
 public class BilletUI {
     private final BilletService billetService;
-
+    private final   ContratService contratService;
     public BilletUI(Connection connection) {
         this.billetService = new BilletService(connection);
+        this.contratService = new ContratService(connection);
     }
 
     public void showMenu() throws SQLException {
@@ -59,30 +62,37 @@ public class BilletUI {
 
     private void createBillet(Scanner scanner) throws SQLException {
         Billet billet = new Billet();
+        billet.setId(UUID.randomUUID());
 
-        System.out.println("Enter Type of Transport:");
+        System.out.println("Enter Contrat ID:");
+        UUID contratId = UUID.fromString(scanner.nextLine());
+        Contrat contrat = contratService.getContratById(contratId);
+
+        if (contrat == null) {
+            System.out.println("Contrat not found.");
+            return;
+        }
+        billet.setContrat(contrat);
+
+        System.out.println("Enter Type of Transport(avion, train , bus):");
         billet.setTypeTransport(TypeTransport.valueOf(scanner.nextLine().toUpperCase()));
 
         System.out.println("Enter Purchase Price:");
         billet.setPrixAchat(new BigDecimal(scanner.nextLine()));
-
         System.out.println("Enter Sale Price:");
         billet.setPrixVente(new BigDecimal(scanner.nextLine()));
-
         System.out.println("Enter Sale Date (yyyy-mm-dd):");
         billet.setDateVente(Date.valueOf(scanner.nextLine()));
-
-        System.out.println("Enter Billet Status:");
+        System.out.println("Enter Billet Status(vendu, annule, en attente):");
         billet.setStatutBillet(StatutBillet.valueOf(scanner.nextLine().toUpperCase()));
-
         billetService.createBillet(billet);
         System.out.println("Billet created successfully!");
     }
 
+
     private void viewBilletById(Scanner scanner) throws SQLException {
         System.out.println("Enter Billet ID:");
         UUID id = UUID.fromString(scanner.nextLine());
-
         Billet billet = billetService.getBilletById(id);
         if (billet != null) {
             System.out.println("Billet: " + billet);

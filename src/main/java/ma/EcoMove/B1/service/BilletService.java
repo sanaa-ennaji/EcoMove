@@ -18,6 +18,9 @@ public class BilletService implements IBilletService {
 
     @Override
     public void createBillet(Billet billet) throws SQLException {
+        if (billet.getContrat() == null || billet.getContrat().getId() == null) {
+            throw new IllegalArgumentException("Contrat not found or invalid.");
+        }
         billetDAO.createBillet(billet);
     }
 

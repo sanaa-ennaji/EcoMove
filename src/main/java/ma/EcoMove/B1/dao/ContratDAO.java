@@ -107,7 +107,6 @@ public class ContratDAO implements IContrat {
         }
     }
 
-
     private Contrat mapResultSetToContrat(ResultSet rs) throws SQLException {
         Contrat contrat = new Contrat();
         contrat.setId((UUID) rs.getObject("id"));
@@ -116,12 +115,15 @@ public class ContratDAO implements IContrat {
         contrat.setTarifSpecial(rs.getDouble("tarifSpecial"));
         contrat.setConditionsAccord(rs.getString("conditionsAccord"));
         contrat.setRenouvelable(rs.getBoolean("renouvelable"));
-        contrat.setStatutContrat(StatutContrat.valueOf(rs.getString("statutContrat")));
+//        contrat.setStatutContrat(StatutContrat.valueOf(rs.getString("statutContrat")));
+        contrat.setStatutContrat(StatutContrat.valueOf(rs.getString("statutContrat").toUpperCase()));
+
         PartenaireDAO partenaireDAO = new PartenaireDAO(connection);
         Partenaire partenaire = partenaireDAO.getPartenaireById((UUID) rs.getObject("partenaire_id"));
         contrat.setPartenaire(partenaire);
         return contrat;
     }
+
 
 
 }

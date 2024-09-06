@@ -5,10 +5,10 @@ CREATE TABLE partenaires (
                              id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
                              nomCompagnie VARCHAR(255) NOT NULL,
                              contactCommercial VARCHAR(255),
-                             typeTransport VARCHAR(50) CHECK (type_transport IN ('avion', 'train', 'bus')),
+                             typeTransport VARCHAR(50) CHECK (typeTransport IN ('avion', 'train', 'bus')),
                              zoneGeographique TEXT,
                              conditionsSpeciales TEXT,
-                             statutPartenaire VARCHAR(50) CHECK (statut_partenaire IN ('actif', 'inactif', 'suspendu')),
+                             statutPartenaire VARCHAR(50) CHECK (statutPartenaire IN ('actif', 'inactif', 'suspendu')),
                              dateCreation DATE
 );
 
@@ -20,7 +20,7 @@ CREATE TABLE contrats (
                           tarifSpecial DECIMAL,
                           conditionsAccord TEXT,
                           renouvelable BOOLEAN,
-                          statutContrat VARCHAR(50) CHECK (statut_contrat IN ('enCours', 'termine', 'suspendu'))
+                          statutContrat VARCHAR(50) CHECK (statutContrat IN ('encours', 'termine', 'suspendu'))
 );
 
 CREATE TABLE promotions (
@@ -29,18 +29,18 @@ CREATE TABLE promotions (
                             description TEXT,
                             dateDebut DATE,
                             dateFin DATE,
-                            typeReduction VARCHAR(50) CHECK (type_reduction IN ('pourcentage', 'montant fixe')),
+                            typeReduction VARCHAR(50) CHECK (typeReduction IN ('pourcentage', 'montant fixe')),
                             valeurReduction DECIMAL,
                             conditions TEXT,
-                            statutOffre VARCHAR(50) CHECK (statut_offre IN ('active', 'expiree', 'suspendue'))
+                            statutOffre VARCHAR(50) CHECK (statutOffre IN ('active', 'expiree', 'suspendue'))
 );
 
 CREATE TABLE billets (
                          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-                         typeTransport VARCHAR(50) CHECK (type_transport IN ('avion', 'train', 'bus')),
+                         typeTransport VARCHAR(50) CHECK (typeTransport IN ('avion', 'train', 'bus')),
                          prixAchat DECIMAL,
                          prixVente DECIMAL,
                          dateVente TIMESTAMP,
-                         statutBillet VARCHAR(50) CHECK (statut_billet IN ('vendu', 'annule', 'en attente')),
+                         statutBillet VARCHAR(50) CHECK (statutBillet IN ('vendu', 'annule', 'en attente')),
                          contrat_id UUID REFERENCES contrats(id) ON DELETE CASCADE,
 );

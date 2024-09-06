@@ -18,12 +18,19 @@ public class ContratService implements IContratService {
 
     @Override
     public void createContrat(Contrat contrat) throws SQLException {
-
+        if (contrat.getPartenaire() == null) {
+            throw new IllegalArgumentException("Partenaire not found.");
+        }
         if (contrat.getDateFin().before(contrat.getDateDebut())) {
             throw new IllegalArgumentException("End date cannot be before start date.");
         }
+
+        if (contrat.getStatutContrat() == null) {
+            throw new IllegalArgumentException("Invalid status for the contract.");
+        }
         contratDAO.createContrat(contrat);
     }
+
 
     @Override
     public Contrat getContratById(UUID id) throws SQLException {
@@ -34,6 +41,7 @@ public class ContratService implements IContratService {
     public List<Contrat> getAllContrats() throws SQLException {
         return contratDAO.getAllContrats();
     }
+
 
     @Override
     public void updateContrat(Contrat contrat) throws SQLException {
