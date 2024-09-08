@@ -101,7 +101,16 @@ public class PartenaireUI {
             UUID id = UUID.fromString(scanner.nextLine());
             Partenaire partenaire = partenaireService.getPartenaireById(id);
             if (partenaire != null) {
-                System.out.println(partenaire);
+                System.out.println("------------------------------");
+                System.out.println("ID: " + partenaire.getId());
+                System.out.println("Nom Compagnie: " + partenaire.getNomCompagnie());
+                System.out.println("Contact Commercial: " + partenaire.getContactCommercial());
+                System.out.println("Type Transport (bus, train, avion): " + partenaire.getTypeTransport());
+                System.out.println("Zone Géographique: " + partenaire.getZoneGeographique());
+                System.out.println("Conditions Spéciales: " + partenaire.getConditionsSpeciales());
+                System.out.println("Statut Partenaire: " + partenaire.getStatutPartenaire());
+                System.out.println("Date Création: " + partenaire.getDateCreation());
+                System.out.println("------------------------------");
             } else {
                 System.out.println("Partenaire not found.");
             }

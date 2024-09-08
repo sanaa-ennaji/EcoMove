@@ -95,7 +95,14 @@ public class BilletUI {
         UUID id = UUID.fromString(scanner.nextLine());
         Billet billet = billetService.getBilletById(id);
         if (billet != null) {
-            System.out.println("Billet: " + billet);
+            System.out.println("id: " + billet.getId());
+            System.out.println("Contrat: " +  billet.getContrat().getId());
+            System.out.println("PurchasePrice: " + billet.getPrixAchat());
+            System.out.println("PrixVente: " + billet.getDateVente());
+            System.out.println("StatutBillet: " + billet.getStatutBillet());
+            System.out.println("Transport(avion, train , bus): " + billet.getTypeTransport());
+            System.out.println("Date (yyyy-mm-dd): " + billet.getDateVente());
+            System.out.println("-------------");
         } else {
             System.out.println("Billet not found.");
         }

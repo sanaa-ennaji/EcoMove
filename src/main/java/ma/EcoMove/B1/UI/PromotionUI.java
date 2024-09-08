@@ -1,7 +1,6 @@
 package main.java.ma.EcoMove.B1.UI;
 import main.java.ma.EcoMove.B1.dao.PromotionDAO;
 import main.java.ma.EcoMove.B1.entity.Contrat;
-import main.java.ma.EcoMove.B1.entity.Partenaire;
 import main.java.ma.EcoMove.B1.entity.Promotion;
 import main.java.ma.EcoMove.B1.enums.TypeReduction;
 import main.java.ma.EcoMove.B1.enums.StatutOffre;
@@ -129,7 +128,16 @@ public class PromotionUI {
 
         Promotion promotion = promotionService.getPromotionById(id);
         if (promotion != null) {
-            System.out.println(promotion);
+            System.out.println("------------------------------");
+            System.out.println("ID: " + promotion.getId());
+            System.out.println("Offre Name: " + promotion.getNomOffre());
+            System.out.println("Description: " + promotion.getDescription());
+            System.out.println("Start Date: " + promotion.getDateDebut());
+            System.out.println("End Date: " + promotion.getDateFin());
+            System.out.println("Reduction Type: " + promotion.getTypeReduction());
+            System.out.println("Conditions: " + promotion.getConditions());
+            System.out.println("Offre Status: " + promotion.getStatutOffre());
+            System.out.println("------------------------------");
         } else {
             System.out.println("Promotion not found.");
         }

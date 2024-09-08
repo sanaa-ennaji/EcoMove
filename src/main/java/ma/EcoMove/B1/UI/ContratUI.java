@@ -5,7 +5,6 @@ import main.java.ma.EcoMove.B1.entity.Partenaire;
 import main.java.ma.EcoMove.B1.enums.StatutContrat;
 import main.java.ma.EcoMove.B1.service.ContratService;
 import main.java.ma.EcoMove.B1.service.PartenaireService;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -119,10 +118,10 @@ public class ContratUI {
         try {
             List<Contrat> contrats = contratService.getAllContrats();
             for (Contrat contrat : contrats) {
-                System.out.println("ID: " + contrat.getId());
+                System.out.println("id: " + contrat.getId());
                 System.out.println("Partenaire: " + contrat.getPartenaire().getId());
-                System.out.println("Start Date: " + contrat.getDateDebut());
-                System.out.println("End Date: " + contrat.getDateFin());
+                System.out.println("StartDate: " + contrat.getDateDebut());
+                System.out.println("EndDate: " + contrat.getDateFin());
                 System.out.println("Special Rate: " + contrat.getTarifSpecial());
                 System.out.println("Agreement Conditions: " + contrat.getConditionsAccord());
                 System.out.println("Status: " + contrat.getStatutContrat());
@@ -141,7 +140,15 @@ public class ContratUI {
             UUID id = UUID.fromString(scanner.nextLine());
             Contrat contrat = contratService.getContratById(id);
             if (contrat != null) {
-                System.out.println(contrat);
+                System.out.println("ID: " + contrat.getId());
+                System.out.println("Partenaire: " + contrat.getPartenaire().getId());
+                System.out.println("Start Date: " + contrat.getDateDebut());
+                System.out.println("End Date: " + contrat.getDateFin());
+                System.out.println("Special Rate: " + contrat.getTarifSpecial());
+                System.out.println("Agreement Conditions: " + contrat.getConditionsAccord());
+                System.out.println("Status: " + contrat.getStatutContrat());
+                System.out.println("Renewable: " + contrat.isRenouvelable());
+                System.out.println("-------------");
             } else {
                 System.out.println("Contrat not found.");
             }
