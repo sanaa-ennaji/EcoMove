@@ -111,10 +111,10 @@ public class PromotionDAO implements IPromotion {
         promotion.setDescription(rs.getString("description"));
         promotion.setDateDebut(rs.getDate("dateDebut"));
         promotion.setDateFin(rs.getDate("dateFin"));
-        promotion.setTypeReduction(TypeReduction.valueOf(rs.getString("typeReduction")));
+        promotion.setTypeReduction(TypeReduction.valueOf(rs.getString("typeReduction").toUpperCase()));
         promotion.setValeurReduction(rs.getBigDecimal("valeurReduction"));
         promotion.setConditions(rs.getString("conditions"));
-        promotion.setStatutOffre(StatutOffre.valueOf(rs.getString("statutOffre")));
+        promotion.setStatutOffre(StatutOffre.valueOf(rs.getString("statutOffre").toUpperCase()));
         UUID contratId = (UUID) rs.getObject("contrat_id");
         if (contratId != null) {
             Contrat contrat = new Contrat();

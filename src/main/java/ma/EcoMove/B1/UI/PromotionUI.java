@@ -1,6 +1,7 @@
 package main.java.ma.EcoMove.B1.UI;
 import main.java.ma.EcoMove.B1.dao.PromotionDAO;
 import main.java.ma.EcoMove.B1.entity.Contrat;
+import main.java.ma.EcoMove.B1.entity.Partenaire;
 import main.java.ma.EcoMove.B1.entity.Promotion;
 import main.java.ma.EcoMove.B1.enums.TypeReduction;
 import main.java.ma.EcoMove.B1.enums.StatutOffre;
@@ -138,7 +139,20 @@ public class PromotionUI {
         System.out.println("\n--- View All Promotions ---");
 
         List<Promotion> promotions = promotionService.getAllPromotions();
-        promotions.forEach(System.out::println);
+        for (Promotion promotion: promotions) {
+            System.out.println("------------------------------");
+            System.out.println("ID: " + promotion.getId());
+            System.out.println("offre name: " +promotion.getNomOffre());
+            System.out.println("Description: " + promotion.getDescription());
+            System.out.println("start date : " + promotion.getDateDebut());
+            System.out.println("end date : " + promotion.getDateFin());
+            System.out.println("Reduction Type: " + promotion.getTypeReduction());
+            System.out.println("conditions : " + promotion.getConditions());
+            System.out.println("offre status: " + promotion.getStatutOffre());
+            System.out.println("------------------------------");
+
+        }
+
     }
 
     private void updatePromotion() throws SQLException {
