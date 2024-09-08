@@ -115,7 +115,7 @@ public class ContratDAO implements IContrat {
         contrat.setTarifSpecial(rs.getDouble("tarifSpecial"));
         contrat.setConditionsAccord(rs.getString("conditionsAccord"));
         contrat.setRenouvelable(rs.getBoolean("renouvelable"));
-//        contrat.setStatutContrat(StatutContrat.valueOf(rs.getString("statutContrat")));
+       //  contrat.setStatutContrat(StatutContrat.valueOf(rs.getString("statutContrat")));
         contrat.setStatutContrat(StatutContrat.valueOf(rs.getString("statutContrat").toUpperCase()));
 
         PartenaireDAO partenaireDAO = new PartenaireDAO(connection);

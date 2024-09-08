@@ -66,7 +66,7 @@ public class PartenaireUI {
             String nomCompagnie = scanner.nextLine();
             System.out.print("Enter contactCommercial: ");
             String contactCommercial = scanner.nextLine();
-            System.out.print("Enter typeTransport (BUS, TRAIN): ");
+            System.out.print("Enter typeTransport (bus, train, avion): ");
             TypeTransport typeTransport = TypeTransport.valueOf(scanner.nextLine().toUpperCase());
             System.out.print("Enter zoneGeographique: ");
             String zoneGeographique = scanner.nextLine();
@@ -110,17 +110,29 @@ public class PartenaireUI {
         }
     }
 
+
     private void getAllPartenaires() {
         try {
 
             List<Partenaire> partenaires = partenaireService.getAllPartenaires();
             for (Partenaire partenaire : partenaires) {
-                System.out.println(partenaire);
+                System.out.println("------------------------------");
+                System.out.println("ID: " + partenaire.getId());
+                System.out.println("nomCompagnie: " +partenaire.getNomCompagnie());
+                System.out.println("contactCommercial: " + partenaire.getContactCommercial());
+                System.out.println("typeTransport (bus, train, avion): " + partenaire.getTypeTransport());
+                System.out.println("zoneGeographique: " + partenaire.getZoneGeographique());
+                System.out.println("conditionsSpeciales: " + partenaire.getConditionsSpeciales());
+                System.out.println("statutPartenaire: " + partenaire.getStatutPartenaire());
+                System.out.println("dateCreation: " + partenaire.getDateCreation());
+                System.out.println("------------------------------");
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     private void updatePartenaire() {
         try {

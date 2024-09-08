@@ -22,11 +22,11 @@ public class BilletDAO implements IBillet {
         String sql = "INSERT INTO billets (id, typeTransport, prixAchat, prixVente, dateVente, statutBillet, contrat_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setObject(1, billet.getId());
-            stmt.setString(2, billet.getTypeTransport().name());
+            stmt.setString(2, billet.getTypeTransport().name().toLowerCase());
             stmt.setBigDecimal(3, billet.getPrixAchat());
             stmt.setBigDecimal(4, billet.getPrixVente());
             stmt.setDate(5, new java.sql.Date(billet.getDateVente().getTime()));
-            stmt.setString(6, billet.getStatutBillet().name());
+            stmt.setString(6, billet.getStatutBillet().name().toLowerCase());
             stmt.setObject(7, billet.getContrat().getId());
             stmt.executeUpdate();
         }
@@ -63,7 +63,7 @@ public class BilletDAO implements IBillet {
             stmt.setBigDecimal(2, billet.getPrixAchat());
             stmt.setBigDecimal(3, billet.getPrixVente());
             stmt.setDate(4, new java.sql.Date(billet.getDateVente().getTime()));
-            stmt.setString(5, billet.getStatutBillet().name());
+            stmt.setString(5, billet.getStatutBillet().name().toLowerCase());
             stmt.setObject(6, billet.getContrat() != null ? billet.getContrat().getId() : null);
             stmt.setObject(7, billet.getId());
             stmt.executeUpdate();
@@ -102,11 +102,11 @@ public class BilletDAO implements IBillet {
     private Billet mapResultSetToBillet(ResultSet rs) throws SQLException {
         Billet billet = new Billet();
         billet.setId((UUID) rs.getObject("id"));
-        billet.setTypeTransport(TypeTransport.valueOf(rs.getString("typeTransport")));
+        billet.setTypeTransport(TypeTransport.valueOf(rs.getString("typeTransport").toUpperCase()));
         billet.setPrixAchat(rs.getBigDecimal("prixAchat"));
         billet.setPrixVente(rs.getBigDecimal("prixVente"));
         billet.setDateVente(rs.getDate("dateVente"));
-        billet.setStatutBillet(StatutBillet.valueOf(rs.getString("statutBillet")));
+        billet.setStatutBillet(StatutBillet.valueOf(rs.getString("statutBillet").toUpperCase()));
         UUID contratId = (UUID) rs.getObject("contrat_id");
         if (contratId != null) {
             ContratDAO contratDAO = new ContratDAO(connection);

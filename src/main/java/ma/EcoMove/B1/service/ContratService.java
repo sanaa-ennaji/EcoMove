@@ -1,5 +1,4 @@
 package main.java.ma.EcoMove.B1.service;
-
 import main.java.ma.EcoMove.B1.dao.ContratDAO;
 import main.java.ma.EcoMove.B1.entity.Contrat;
 import main.java.ma.EcoMove.B1.service.IService.IContratService;

@@ -17,7 +17,6 @@ public class PromotionService implements IPromotionService {
 
     @Override
     public void createPromotion(Promotion promotion) throws SQLException {
-        // Add any additional business logic here if needed
         promotionDAO.createPromotion(promotion);
     }
 

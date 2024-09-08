@@ -115,6 +115,24 @@ public class ContratUI {
 
 
 
+    private void getAllContrats() {
+        try {
+            List<Contrat> contrats = contratService.getAllContrats();
+            for (Contrat contrat : contrats) {
+                System.out.println("ID: " + contrat.getId());
+                System.out.println("Partenaire: " + contrat.getPartenaire().getId());
+                System.out.println("Start Date: " + contrat.getDateDebut());
+                System.out.println("End Date: " + contrat.getDateFin());
+                System.out.println("Special Rate: " + contrat.getTarifSpecial());
+                System.out.println("Agreement Conditions: " + contrat.getConditionsAccord());
+                System.out.println("Status: " + contrat.getStatutContrat());
+                System.out.println("Renewable: " + contrat.isRenouvelable());
+                System.out.println("-------------");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     private void getContratById() {
@@ -132,16 +150,16 @@ public class ContratUI {
         }
     }
 
-    private void getAllContrats() {
-        try {
-            List<Contrat> contrats = contratService.getAllContrats();
-            for (Contrat contrat : contrats) {
-                System.out.println(contrat);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    private void getAllContrats() {
+//        try {
+//            List<Contrat> contrats = contratService.getAllContrats();
+//            for (Contrat contrat : contrats) {
+//                System.out.println(contrat);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private void updateContrat() {
         try {

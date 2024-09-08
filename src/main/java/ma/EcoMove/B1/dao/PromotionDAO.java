@@ -31,7 +31,7 @@ public class PromotionDAO implements IPromotion {
             stmt.setBigDecimal(7, promotion.getValeurReduction());
             stmt.setString(8, promotion.getConditions());
             stmt.setString(9, promotion.getStatutOffre().name());
-            stmt.setObject(10, promotion.getContrat() != null ? promotion.getContrat().getId() : null);
+            stmt.setObject(10, promotion.getContrat().getId());
             stmt.executeUpdate();
         }
     }

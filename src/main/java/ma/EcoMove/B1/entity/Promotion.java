@@ -39,7 +39,7 @@ public class Promotion {
 
     }
 
-    // Getters and Setters
+
     public UUID getId() {
         return id;
     }

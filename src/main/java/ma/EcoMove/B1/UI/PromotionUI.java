@@ -1,6 +1,5 @@
 package main.java.ma.EcoMove.B1.UI;
-
-import main.java.ma.EcoMove.B1.dao.Interface.IPromotion;
+import main.java.ma.EcoMove.B1.dao.PromotionDAO;
 import main.java.ma.EcoMove.B1.entity.Promotion;
 import main.java.ma.EcoMove.B1.enums.TypeReduction;
 import main.java.ma.EcoMove.B1.enums.StatutOffre;
@@ -19,7 +18,7 @@ public class PromotionUI {
     private final Scanner scanner = new Scanner(System.in);
 
     public PromotionUI(Connection connection) {
-        this.promotionService = new PromotionService((IPromotion) connection);
+        this.promotionService = new PromotionService(new PromotionDAO(connection));
     }
 
     public void showMenu() {
@@ -85,7 +84,7 @@ public class PromotionUI {
 
         System.out.print("Enter Reduction Value: ");
         BigDecimal valeurReduction = scanner.nextBigDecimal();
-        scanner.nextLine();  // Consume newline
+        scanner.nextLine();
 
         System.out.print("Enter Conditions: ");
         String conditions = scanner.nextLine();
@@ -158,7 +157,7 @@ public class PromotionUI {
 
         System.out.print("Enter New Reduction Value (current: " + promotion.getValeurReduction() + "): ");
         promotion.setValeurReduction(scanner.nextBigDecimal());
-        scanner.nextLine();  // Consume newline
+        scanner.nextLine();
 
         System.out.print("Enter New Conditions (current: " + promotion.getConditions() + "): ");
         promotion.setConditions(scanner.nextLine());

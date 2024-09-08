@@ -1,8 +1,6 @@
 package main.java.ma.EcoMove.B1.UI;
 
 import main.java.ma.EcoMove.B1.service.PartenaireService;
-import main.java.ma.EcoMove.B1.service.ContratService;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
