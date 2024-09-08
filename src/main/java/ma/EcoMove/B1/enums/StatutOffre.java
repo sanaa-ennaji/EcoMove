@@ -5,4 +5,3 @@ public enum StatutOffre {
     EXPIREE,
     SUSPENDUE
 }
-

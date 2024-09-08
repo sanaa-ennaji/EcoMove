@@ -27,11 +27,11 @@ public class PromotionDAO implements IPromotion {
             stmt.setString(3, promotion.getDescription());
             stmt.setDate(4, new java.sql.Date(promotion.getDateDebut().getTime()));
             stmt.setDate(5, new java.sql.Date(promotion.getDateFin().getTime()));
-            stmt.setString(6, promotion.getTypeReduction().name());
+            stmt.setString(6, promotion.getTypeReduction().name().toLowerCase());
             stmt.setBigDecimal(7, promotion.getValeurReduction());
             stmt.setString(8, promotion.getConditions());
-            stmt.setString(9, promotion.getStatutOffre().name());
-            stmt.setObject(10, promotion.getContrat().getId());
+            stmt.setString(9, promotion.getStatutOffre().name().toLowerCase());
+            stmt.setObject(10, promotion.getContrat() != null ? promotion.getContrat().getId() : null);
             stmt.executeUpdate();
         }
     }
@@ -71,7 +71,7 @@ public class PromotionDAO implements IPromotion {
             stmt.setBigDecimal(6, promotion.getValeurReduction());
             stmt.setString(7, promotion.getConditions());
             stmt.setString(8, promotion.getStatutOffre().name());
-            stmt.setObject(9, promotion.getContrat() != null ? promotion.getContrat().getId() : null);
+            stmt.setObject(9, promotion.getContrat().getId());
             stmt.setObject(10, promotion.getId());
             stmt.executeUpdate();
         }

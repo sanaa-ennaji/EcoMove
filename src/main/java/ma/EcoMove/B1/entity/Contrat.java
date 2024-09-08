@@ -101,21 +101,21 @@ public class Contrat {
         this.partenaire = partenaire;
     }
 
-    public List<Billet> getBillets() {
-        return billets;
-    }
-
-    public void setBillets(List<Billet> billets) {
-        this.billets = billets;
-    }
-
-    public List<Promotion> getPromotions() {
-        return promotions;
-    }
-
-    public void setPromotions(List<Promotion> promotions) {
-        this.promotions = promotions;
-    }
+//    public List<Billet> getBillets() {
+//        return billets;
+//    }
+//
+//    public void setBillets(List<Billet> billets) {
+//        this.billets = billets;
+//    }
+//
+//    public List<Promotion> getPromotions() {
+//        return promotions;
+//    }
+//
+//    public void setPromotions(List<Promotion> promotions) {
+//        this.promotions = promotions;
+//    }
 
 
 

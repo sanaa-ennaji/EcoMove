@@ -29,10 +29,11 @@ CREATE TABLE promotions (
                             description TEXT,
                             dateDebut DATE,
                             dateFin DATE,
-                            typeReduction VARCHAR(50) CHECK (typeReduction IN ('pourcentage', 'montant fixe')),
+                            typeReduction VARCHAR(50) CHECK (typeReduction IN ('pourcentage', 'montantfixe')),
                             valeurReduction DECIMAL,
                             conditions TEXT,
-                            statutOffre VARCHAR(50) CHECK (statutOffre IN ('active', 'expiree', 'suspendue'))
+                            statutOffre VARCHAR(50) CHECK (statutOffre IN ('active', 'expiree', 'suspendue')),
+                            contrat_id UUID REFERENCES contrats(id) ON DELETE CASCADE
 );
 
 CREATE TABLE billets (

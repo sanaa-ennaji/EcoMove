@@ -1,8 +1,10 @@
 package main.java.ma.EcoMove.B1.UI;
 import main.java.ma.EcoMove.B1.dao.PromotionDAO;
+import main.java.ma.EcoMove.B1.entity.Contrat;
 import main.java.ma.EcoMove.B1.entity.Promotion;
 import main.java.ma.EcoMove.B1.enums.TypeReduction;
 import main.java.ma.EcoMove.B1.enums.StatutOffre;
+import main.java.ma.EcoMove.B1.service.ContratService;
 import main.java.ma.EcoMove.B1.service.IService.IPromotionService;
 import main.java.ma.EcoMove.B1.service.PromotionService;
 
@@ -15,10 +17,12 @@ import java.util.UUID;
 
 public class PromotionUI {
     private final IPromotionService promotionService;
+    private final ContratService contratService;
     private final Scanner scanner = new Scanner(System.in);
 
     public PromotionUI(Connection connection) {
         this.promotionService = new PromotionService(new PromotionDAO(connection));
+        this.contratService = new ContratService(connection);
     }
 
     public void showMenu() {
@@ -67,6 +71,14 @@ public class PromotionUI {
     private void createPromotion() throws SQLException {
         System.out.println("\n--- Create Promotion ---");
 
+        System.out.println("Enter Contrat ID:");
+        UUID contratId = UUID.fromString(scanner.nextLine());
+        Contrat contrat = contratService.getContratById(contratId);
+
+        if (contrat == null) {
+            System.out.println("Contrat not found.");
+            return;
+        }
         System.out.print("Enter Offer Name: ");
         String nomOffre = scanner.nextLine();
 
@@ -79,7 +91,7 @@ public class PromotionUI {
         System.out.print("Enter End Date (yyyy-mm-dd): ");
         String dateFin = scanner.nextLine();
 
-        System.out.print("Enter Reduction Type (e.g., PERCENTAGE, FLAT): ");
+        System.out.print("Enter Reduction Type (pourcentage ,montant fixe): ");
         String typeReduction = scanner.nextLine();
 
         System.out.print("Enter Reduction Value: ");
@@ -89,7 +101,7 @@ public class PromotionUI {
         System.out.print("Enter Conditions: ");
         String conditions = scanner.nextLine();
 
-        System.out.print("Enter Status (e.g., ACTIVE, EXPIRED, SUSPENDED): ");
+        System.out.print("Enter Status (ACTIVE, EXPIRED, SUSPENDED): ");
         String statutOffre = scanner.nextLine();
 
         Promotion promotion = new Promotion(
