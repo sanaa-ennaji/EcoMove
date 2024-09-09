@@ -2,6 +2,7 @@ package main.java.ma.EcoMove.B1.service;
 
 import main.java.ma.EcoMove.B1.dao.PartenaireDAO;
 import main.java.ma.EcoMove.B1.entity.Partenaire;
+import main.java.ma.EcoMove.B1.entity.Promotion;
 import main.java.ma.EcoMove.B1.service.IService.IPartenaireService;
 
 import java.sql.Connection;
@@ -42,6 +43,8 @@ public class PartenaireService implements IPartenaireService {
         }
         return partenaires;
     }
+
+
 
     @Override
     public void updatePartenaire(Partenaire partenaire) throws SQLException {

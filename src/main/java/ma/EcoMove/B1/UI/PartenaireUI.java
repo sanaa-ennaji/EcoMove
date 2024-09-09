@@ -18,8 +18,8 @@ public class PartenaireUI {
     private final Scanner scanner = new Scanner(System.in);
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public PartenaireUI(Connection connection) {
-        this.partenaireService = new PartenaireService(connection);
+    public PartenaireUI() {
+        this.partenaireService = new PartenaireService();
     }
 
     public void run() {
@@ -78,15 +78,21 @@ public class PartenaireUI {
             Date dateCreation = dateFormat.parse(scanner.nextLine());
 
 
-            Partenaire partenaire = new Partenaire();
-            partenaire.setId(UUID.randomUUID());
-            partenaire.setNomCompagnie(nomCompagnie);
-            partenaire.setContactCommercial(contactCommercial);
-            partenaire.setTypeTransport(typeTransport);
-            partenaire.setZoneGeographique(zoneGeographique);
-            partenaire.setConditionsSpeciales(conditionsSpeciales);
-            partenaire.setStatutPartenaire(statutPartenaire);
-            partenaire.setDateCreation(dateCreation);
+            Partenaire partenaire = new Partenaire(
+                    UUID.randomUUID(),
+                    nomCompagnie ,
+                    contactCommercial,
+                    typeTransport,
+                    zoneGeographique,
+                    conditionsSpeciales,
+                    statutPartenaire,
+                    dateCreation ,
+                    null
+
+
+            );
+
+
 
             partenaireService.createPartenaire(partenaire);
             System.out.println("Partenaire created successfully.");
@@ -109,7 +115,7 @@ public class PartenaireUI {
                 System.out.println("Zone Géographique: " + partenaire.getZoneGeographique());
                 System.out.println("Conditions Spéciales: " + partenaire.getConditionsSpeciales());
                 System.out.println("Statut Partenaire: " + partenaire.getStatutPartenaire());
-                System.out.println("Date Création: " + partenaire.getDateCreation());
+                System.out.println("Date Creation: " + partenaire.getDateCreation());
                 System.out.println("------------------------------");
             } else {
                 System.out.println("Partenaire not found.");
@@ -138,7 +144,7 @@ public class PartenaireUI {
 
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Partenaire not found.");
         }
     }
 
@@ -203,7 +209,7 @@ public class PartenaireUI {
             partenaireService.deletePartenaire(id);
             System.out.println("Partenaire deleted successfully.");
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Partenaire not found.");
         }
     }
 }

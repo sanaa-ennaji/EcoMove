@@ -16,7 +16,7 @@ public class PrincipalMenu {
         this.connection = DriverManager.getConnection(
                 "jdbc:postgresql://localhost:5432/EcoMove", "postgres", "password");
 
-        // Initialize PartenaireService with the Connection
+
         this.partenaireService = new PartenaireService(connection);
     }
 

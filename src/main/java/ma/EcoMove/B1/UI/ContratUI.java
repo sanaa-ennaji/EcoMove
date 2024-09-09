@@ -26,7 +26,10 @@ public class ContratUI {
         this.partenaireService = new PartenaireService(connection);
     }
 
-    public void start() {
+
+
+
+        public void start() {
         while (true) {
             System.out.println("1. Create Contrat");
             System.out.println("2. Get Contrat by ID");
@@ -129,7 +132,7 @@ public class ContratUI {
                 System.out.println("-------------");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("no contrat created yet.");
         }
     }
 

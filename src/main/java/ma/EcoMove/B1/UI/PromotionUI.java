@@ -148,6 +148,7 @@ public class PromotionUI {
 
         List<Promotion> promotions = promotionService.getAllPromotions();
         for (Promotion promotion: promotions) {
+            if (promotion != null) {
             System.out.println("------------------------------");
             System.out.println("ID: " + promotion.getId());
             System.out.println("offre name: " +promotion.getNomOffre());
@@ -158,7 +159,9 @@ public class PromotionUI {
             System.out.println("conditions : " + promotion.getConditions());
             System.out.println("offre status: " + promotion.getStatutOffre());
             System.out.println("------------------------------");
-
+        } else {
+            System.out.println("Promotion not found.");
+        }
         }
 
     }

@@ -111,6 +111,7 @@ public class BilletUI {
     private void viewAllBillets() throws SQLException {
         List<Billet> billets = billetService.getAllBillets();
         for (Billet billet : billets) {
+            if (billet != null) {
             System.out.println("ID: " + billet.getId());
             System.out.println("Contrat: " +  billet.getContrat().getId());
             System.out.println("Purchase Price: " + billet.getPrixAchat());
@@ -119,7 +120,9 @@ public class BilletUI {
             System.out.println("Transport(avion, train , bus): " + billet.getTypeTransport());
             System.out.println("Date (yyyy-mm-dd): " + billet.getDateVente());
             System.out.println("-------------");
-
+        } else {
+            System.out.println("no Billet created yet .");
+        }
         }
     }
 
