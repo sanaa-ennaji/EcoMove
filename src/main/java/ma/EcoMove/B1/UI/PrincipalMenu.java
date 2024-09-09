@@ -1,6 +1,7 @@
 package main.java.ma.EcoMove.B1.UI;
 
 import main.java.ma.EcoMove.B1.service.PartenaireService;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,7 +16,6 @@ public class PrincipalMenu {
     public PrincipalMenu() throws SQLException {
         this.connection = DriverManager.getConnection(
                 "jdbc:postgresql://localhost:5432/EcoMove", "postgres", "password");
-
 
         this.partenaireService = new PartenaireService(connection);
     }

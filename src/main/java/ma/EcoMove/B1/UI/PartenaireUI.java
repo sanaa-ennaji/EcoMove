@@ -18,8 +18,8 @@ public class PartenaireUI {
     private final Scanner scanner = new Scanner(System.in);
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public PartenaireUI() {
-        this.partenaireService = new PartenaireService();
+    public PartenaireUI(Connection connection) {
+        this.partenaireService = new PartenaireService(connection);
     }
 
     public void run() {
