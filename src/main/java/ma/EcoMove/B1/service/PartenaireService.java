@@ -1,20 +1,17 @@
 package main.java.ma.EcoMove.B1.service;
 
-import main.java.ma.EcoMove.B1.dao.PartenaireDAO;
+import main.java.ma.EcoMove.B1.dao.Interface.IPartenaire;
 import main.java.ma.EcoMove.B1.entity.Partenaire;
-import main.java.ma.EcoMove.B1.entity.Promotion;
 import main.java.ma.EcoMove.B1.service.IService.IPartenaireService;
-
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
 public class PartenaireService implements IPartenaireService {
-    private final PartenaireDAO partenaireDAO;
+    private final IPartenaire partenaireDAO;
 
-    public PartenaireService(Connection connection) {
-        this.partenaireDAO = new PartenaireDAO(connection);
+    public PartenaireService(IPartenaire partenaireDAO) {
+        this.partenaireDAO = partenaireDAO ;
     }
 
     @Override

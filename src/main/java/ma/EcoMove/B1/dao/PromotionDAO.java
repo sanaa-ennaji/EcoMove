@@ -5,6 +5,7 @@ import main.java.ma.EcoMove.B1.entity.Contrat;
 import main.java.ma.EcoMove.B1.entity.Promotion;
 import main.java.ma.EcoMove.B1.enums.TypeReduction;
 import main.java.ma.EcoMove.B1.enums.StatutOffre;
+import main.java.ma.EcoMove.B1.util.DatabaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,8 +15,9 @@ import java.util.UUID;
 public class PromotionDAO implements IPromotion {
     private final Connection connection;
 
-    public PromotionDAO(Connection connection) {
-        this.connection = connection;
+    public PromotionDAO() {
+
+        this.connection = DatabaseConnection.getInstance().getConnection();
     }
 
     @Override

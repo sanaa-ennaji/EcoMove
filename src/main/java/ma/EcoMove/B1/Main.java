@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
-        DatabaseConnection dbConnection = DatabaseConnection.getInstance("EcoMove", "postgres", "password");
+        DatabaseConnection dbConnection = DatabaseConnection.getInstance();
 
         try (Connection connection = dbConnection.getConnection()) {
             if (connection != null) {
@@ -22,5 +22,10 @@ public class Main {
             e.printStackTrace();
             System.out.println("Failed to connect to the database. Exiting...");
         }
+//        finally {
+//
+//            dbConnection.closeConnection();
+//        }
     }
+
 }

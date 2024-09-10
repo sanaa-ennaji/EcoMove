@@ -1,18 +1,17 @@
 package main.java.ma.EcoMove.B1.service;
-import main.java.ma.EcoMove.B1.dao.ContratDAO;
+import main.java.ma.EcoMove.B1.dao.Interface.IContrat;
 import main.java.ma.EcoMove.B1.entity.Contrat;
 import main.java.ma.EcoMove.B1.service.IService.IContratService;
-
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
 public class ContratService implements IContratService {
-    private final ContratDAO contratDAO;
+    private final IContrat contratDAO;
 
-    public ContratService(Connection connection) {
-        this.contratDAO = new ContratDAO(connection);
+    public ContratService(IContrat contratDAO) {
+
+        this.contratDAO = contratDAO;
     }
 
     @Override

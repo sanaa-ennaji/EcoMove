@@ -4,6 +4,7 @@ import main.java.ma.EcoMove.B1.dao.Interface.IPartenaire;
 import main.java.ma.EcoMove.B1.entity.Partenaire;
 import main.java.ma.EcoMove.B1.enums.StatutPartenaire;
 import main.java.ma.EcoMove.B1.enums.TypeTransport;
+import main.java.ma.EcoMove.B1.util.DatabaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,12 +12,18 @@ import java.util.List;
 import java.util.UUID;
 
 public class PartenaireDAO implements IPartenaire {
-    private final Connection connection;
 
-    public PartenaireDAO(Connection connection) {
-        this.connection = connection;
+private final Connection connection;
+
+    public PartenaireDAO() {
+        this.connection = DatabaseConnection.getInstance().getConnection();
     }
 
+    //    private final Connection connection;
+//
+//    public PartenaireDAO(Connection connection) {
+//        this.connection = connection;
+//    }
     @Override
     public void createPartenaire(Partenaire partenaire) throws SQLException {
         String sql = "INSERT INTO partenaires (id, nomCompagnie, contactCommercial, typeTransport, zoneGeographique, conditionsSpeciales, statutPartenaire, dateCreation) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";

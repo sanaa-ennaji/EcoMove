@@ -3,9 +3,8 @@ package main.java.ma.EcoMove.B1.UI;
 import main.java.ma.EcoMove.B1.entity.Contrat;
 import main.java.ma.EcoMove.B1.entity.Partenaire;
 import main.java.ma.EcoMove.B1.enums.StatutContrat;
-import main.java.ma.EcoMove.B1.service.ContratService;
-import main.java.ma.EcoMove.B1.service.PartenaireService;
-import java.sql.Connection;
+import main.java.ma.EcoMove.B1.service.IService.IContratService;
+import main.java.ma.EcoMove.B1.service.IService.IPartenaireService;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,14 +15,14 @@ import java.util.UUID;
 
 
 public class ContratUI {
-    private final ContratService contratService;
-    private final PartenaireService partenaireService;
+    private final IContratService contratService;
+    private final IPartenaireService partenaireService;
     private final Scanner scanner = new Scanner(System.in);
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public ContratUI(Connection connection) {
-        this.contratService = new ContratService(connection);
-        this.partenaireService = new PartenaireService(connection);
+    public ContratUI(IContratService contratService, IPartenaireService partenaireService) {
+        this.contratService = contratService;
+        this.partenaireService = partenaireService;
     }
 
 

@@ -1,15 +1,12 @@
 package main.java.ma.EcoMove.B1.UI;
-import main.java.ma.EcoMove.B1.dao.PromotionDAO;
 import main.java.ma.EcoMove.B1.entity.Contrat;
 import main.java.ma.EcoMove.B1.entity.Promotion;
 import main.java.ma.EcoMove.B1.enums.TypeReduction;
 import main.java.ma.EcoMove.B1.enums.StatutOffre;
-import main.java.ma.EcoMove.B1.service.ContratService;
+import main.java.ma.EcoMove.B1.service.IService.IContratService;
 import main.java.ma.EcoMove.B1.service.IService.IPromotionService;
-import main.java.ma.EcoMove.B1.service.PromotionService;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
@@ -17,12 +14,12 @@ import java.util.UUID;
 
 public class PromotionUI {
     private final IPromotionService promotionService;
-    private final ContratService contratService;
+    private final IContratService contratService;
     private final Scanner scanner = new Scanner(System.in);
 
-    public PromotionUI(Connection connection) {
-        this.promotionService = new PromotionService(new PromotionDAO(connection));
-        this.contratService = new ContratService(connection);
+    public PromotionUI(IPromotionService promotionService, IContratService contratService) {
+        this.promotionService = promotionService;
+        this.contratService = contratService;
     }
 
     public void showMenu() {

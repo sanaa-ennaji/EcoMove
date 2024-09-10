@@ -3,6 +3,8 @@ import main.java.ma.EcoMove.B1.dao.Interface.IContrat;
 import main.java.ma.EcoMove.B1.entity.Contrat;
 import main.java.ma.EcoMove.B1.enums.StatutContrat;
 import main.java.ma.EcoMove.B1.entity.Partenaire;
+import main.java.ma.EcoMove.B1.util.DatabaseConnection;
+
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,8 +14,8 @@ import java.util.UUID;
 public class ContratDAO implements IContrat {
     private final Connection connection;
 
-    public ContratDAO(Connection connection) {
-        this.connection = connection;
+    public ContratDAO() {
+        this.connection = DatabaseConnection.getInstance().getConnection();
     }
 
     @Override
@@ -116,7 +118,7 @@ public class ContratDAO implements IContrat {
         contrat.setConditionsAccord(rs.getString("conditionsAccord"));
         contrat.setRenouvelable(rs.getBoolean("renouvelable"));
         contrat.setStatutContrat(StatutContrat.valueOf(rs.getString("statutContrat").toUpperCase()));
-        PartenaireDAO partenaireDAO = new PartenaireDAO(connection);
+        PartenaireDAO partenaireDAO = new PartenaireDAO();
         Partenaire partenaire = partenaireDAO.getPartenaireById((UUID) rs.getObject("partenaire_id"));
         contrat.setPartenaire(partenaire);
         return contrat;

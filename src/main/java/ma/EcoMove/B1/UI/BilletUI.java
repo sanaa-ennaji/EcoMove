@@ -4,11 +4,10 @@ import main.java.ma.EcoMove.B1.entity.Billet;
 import main.java.ma.EcoMove.B1.entity.Contrat;
 import main.java.ma.EcoMove.B1.enums.TypeTransport;
 import main.java.ma.EcoMove.B1.enums.StatutBillet;
-import main.java.ma.EcoMove.B1.service.BilletService;
-import main.java.ma.EcoMove.B1.service.ContratService;
+import main.java.ma.EcoMove.B1.service.IService.IBilletService;
+import main.java.ma.EcoMove.B1.service.IService.IContratService;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
@@ -16,11 +15,11 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class BilletUI {
-    private final BilletService billetService;
-    private final   ContratService contratService;
-    public BilletUI(Connection connection) {
-        this.billetService = new BilletService(connection);
-        this.contratService = new ContratService(connection);
+    private final IBilletService billetService;
+    private final IContratService contratService;
+    public BilletUI(IBilletService billetService, IContratService contratService) {
+        this.billetService = billetService ;
+        this.contratService = contratService ;
     }
 
     public void showMenu() throws SQLException {

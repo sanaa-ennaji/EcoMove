@@ -4,6 +4,7 @@ import main.java.ma.EcoMove.B1.dao.Interface.IBillet;
 import main.java.ma.EcoMove.B1.entity.Billet;
 import main.java.ma.EcoMove.B1.enums.TypeTransport;
 import main.java.ma.EcoMove.B1.enums.StatutBillet;
+import main.java.ma.EcoMove.B1.util.DatabaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,9 +14,11 @@ import java.util.UUID;
 public class BilletDAO implements IBillet {
     private final Connection connection;
 
-    public BilletDAO(Connection connection) {
-        this.connection = connection;
+    public BilletDAO() {
+        this.connection = DatabaseConnection.getInstance().getConnection();
     }
+
+
 
     @Override
     public void createBillet(Billet billet) throws SQLException {
@@ -109,7 +112,7 @@ public class BilletDAO implements IBillet {
         billet.setStatutBillet(StatutBillet.valueOf(rs.getString("statutBillet").toUpperCase()));
         UUID contratId = (UUID) rs.getObject("contrat_id");
         if (contratId != null) {
-            ContratDAO contratDAO = new ContratDAO(connection);
+            ContratDAO contratDAO = new ContratDAO();
             billet.setContrat(contratDAO.getContratById(contratId));
         }
 

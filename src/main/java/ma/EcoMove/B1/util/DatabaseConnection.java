@@ -8,19 +8,18 @@ public class DatabaseConnection {
     private static DatabaseConnection instance;
     private Connection connection;
 
-    private DatabaseConnection(String dbname, String user, String pass) {
+    private DatabaseConnection() {
         try {
-            this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + "EcoMove", "postgres", "password");
-
+            this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/EcoMove", "postgres", "password");
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    public static synchronized DatabaseConnection getInstance(String dbname, String user, String pass) {
+    public static synchronized DatabaseConnection getInstance() {
         if (instance == null) {
-            instance = new DatabaseConnection(dbname, user, pass);
+            instance = new DatabaseConnection();
         }
         return instance;
     }
@@ -29,4 +28,3 @@ public class DatabaseConnection {
         return connection;
     }
 }
-

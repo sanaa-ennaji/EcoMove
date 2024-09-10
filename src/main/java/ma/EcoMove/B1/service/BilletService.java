@@ -1,19 +1,18 @@
 package main.java.ma.EcoMove.B1.service;
 
-import main.java.ma.EcoMove.B1.dao.BilletDAO;
+import main.java.ma.EcoMove.B1.dao.Interface.IBillet;
 import main.java.ma.EcoMove.B1.entity.Billet;
 import main.java.ma.EcoMove.B1.service.IService.IBilletService;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
 public class BilletService implements IBilletService {
-    private final BilletDAO billetDAO;
+    private final IBillet billetDAO;
 
-    public BilletService(Connection connection) {
-        this.billetDAO = new BilletDAO(connection);
+    public BilletService(IBillet billetDAO) {
+        this.billetDAO = billetDAO;
     }
 
     @Override

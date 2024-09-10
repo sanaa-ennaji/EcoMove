@@ -2,8 +2,8 @@ package main.java.ma.EcoMove.B1.UI;
 import main.java.ma.EcoMove.B1.entity.Partenaire;
 import main.java.ma.EcoMove.B1.enums.StatutPartenaire;
 import main.java.ma.EcoMove.B1.enums.TypeTransport;
-import main.java.ma.EcoMove.B1.service.PartenaireService;
-import java.sql.Connection;
+import main.java.ma.EcoMove.B1.service.IService.IPartenaireService;
+
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,13 +14,16 @@ import java.util.UUID;
 
 
 public class PartenaireUI {
-    private final PartenaireService partenaireService;
+    private final IPartenaireService partenaireService ;
     private final Scanner scanner = new Scanner(System.in);
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public PartenaireUI(Connection connection) {
-        this.partenaireService = new PartenaireService(connection);
+    public PartenaireUI(IPartenaireService partenaireService) {
+        this.partenaireService = partenaireService;
+
     }
+
+
 
     public void run() {
         while (true) {

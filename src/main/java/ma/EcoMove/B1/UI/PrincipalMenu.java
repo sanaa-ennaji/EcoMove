@@ -1,23 +1,43 @@
 package main.java.ma.EcoMove.B1.UI;
-
+import main.java.ma.EcoMove.B1.dao.BilletDAO;
+import main.java.ma.EcoMove.B1.dao.ContratDAO;
+import main.java.ma.EcoMove.B1.dao.PartenaireDAO;
+import main.java.ma.EcoMove.B1.dao.PromotionDAO;
+import main.java.ma.EcoMove.B1.service.BilletService;
+import main.java.ma.EcoMove.B1.service.ContratService;
 import main.java.ma.EcoMove.B1.service.PartenaireService;
+import main.java.ma.EcoMove.B1.service.PromotionService;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class PrincipalMenu {
 
     private final Scanner scanner = new Scanner(System.in);
-    private final Connection connection;
-    private final PartenaireService partenaireService;
+    private final PartenaireUI partenaireUI;
+    private final ContratUI contratUI;
+    private final BilletUI billetUI;
+    private final PromotionUI promotionUI;
 
-    public PrincipalMenu() throws SQLException {
-        this.connection = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/EcoMove", "postgres", "password");
+    public PrincipalMenu() {
+        PartenaireDAO partenaireDAO = new PartenaireDAO();
+        PartenaireService partenaireService = new PartenaireService(partenaireDAO);
+        this.partenaireUI = new PartenaireUI(partenaireService);
 
-        this.partenaireService = new PartenaireService(connection);
+        ContratDAO contratDAO = new ContratDAO();
+        ContratService contratService = new ContratService(contratDAO);
+        this.contratUI= new ContratUI(contratService , partenaireService);
+
+        BilletDAO billetDAO = new BilletDAO();
+        BilletService  billetService = new BilletService(billetDAO);
+        this.billetUI = new BilletUI(billetService , contratService);
+
+        PromotionDAO promotionDAO = new PromotionDAO();
+        PromotionService promotionService = new PromotionService(promotionDAO);
+        this.promotionUI = new   PromotionUI(promotionService , contratService);
+
+
+
     }
 
     public void run() throws SQLException {
@@ -35,25 +55,22 @@ public class PrincipalMenu {
 
             switch (option) {
                 case 1:
-                    PartenaireUI partenaireUI = new PartenaireUI(connection);
                     partenaireUI.run();
                     break;
                 case 2:
-                    ContratUI contratUI = new ContratUI(connection);
                     contratUI.start();
                     break;
 
                 case 3:
-                    BilletUI billetUI = new BilletUI(connection);
+
                     billetUI.showMenu();
                     break;
                 case 4:
-                    PromotionUI promotionUI = new PromotionUI(connection);
                     promotionUI.showMenu();
                     break;
                 case 5:
                     System.out.println("Exiting...");
-                    closeConnection();
+//                    closeConnection();
                     return;
                 default:
                     System.out.println("Invalid option.");
@@ -61,13 +78,5 @@ public class PrincipalMenu {
         }
     }
 
-    private void closeConnection() {
-        try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+
 }
