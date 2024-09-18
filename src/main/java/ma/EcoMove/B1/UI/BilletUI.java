@@ -85,12 +85,12 @@ public class BilletUI {
         System.out.println("Enter Billet Status(vendu, annule, en attente):");
         billet.setStatutBillet(StatutBillet.valueOf(scanner.nextLine().toUpperCase()));
         billetService.createBillet(billet);
-        System.out.println("Billet created successfully!");
+        System.out.println("Billet created successfully");
     }
 
 
     private void viewBilletById(Scanner scanner) throws SQLException {
-        System.out.println("Enter Billet ID:");
+        System.out.println("Enter Billet id:");
         UUID id = UUID.fromString(scanner.nextLine());
         Billet billet = billetService.getBilletById(id);
         if (billet != null) {

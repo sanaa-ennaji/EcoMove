@@ -19,11 +19,6 @@ private final Connection connection;
         this.connection = DatabaseConnection.getInstance().getConnection();
     }
 
-    //    private final Connection connection;
-//
-//    public PartenaireDAO(Connection connection) {
-//        this.connection = connection;
-//    }
     @Override
     public void createPartenaire(Partenaire partenaire) throws SQLException {
         String sql = "INSERT INTO partenaires (id, nomCompagnie, contactCommercial, typeTransport, zoneGeographique, conditionsSpeciales, statutPartenaire, dateCreation) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";

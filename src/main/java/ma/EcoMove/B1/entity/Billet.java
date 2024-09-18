@@ -28,6 +28,7 @@ public class Billet {
         this.dateVente = dateVente;
         this.statutBillet = statutBillet;
         this.contrat = contrat;
+        // setters
     }
 
 

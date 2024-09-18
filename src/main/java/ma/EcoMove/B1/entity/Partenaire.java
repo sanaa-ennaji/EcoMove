@@ -5,6 +5,7 @@ import main.java.ma.EcoMove.B1.enums.StatutPartenaire;
 import java.util.UUID;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class Partenaire {
     private UUID id;
@@ -109,5 +110,16 @@ public class Partenaire {
     public void setContrats(List<Contrat> contrats) {
         this.contrats = contrats;
     }
+
+    Optional<String> name = Optional.of("optional");
+    Optional<Integer> nameLength = name.map(String::length);
+   
+    
+ 
+    
+
+
+
+    
 }
 
